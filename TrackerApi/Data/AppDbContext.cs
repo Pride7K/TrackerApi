@@ -23,6 +23,10 @@ namespace TrackerApi.Data
             modelBuilder.Entity<TvShow>()
                 .HasMany(c => c.Episodes)
                 .WithOne(e => e.TvShow).IsRequired();
+
+            modelBuilder.Entity<TvShow>()
+                .HasMany(c => c.Actors)
+                .WithMany(e => e.TvShows);
         }
     }
 }

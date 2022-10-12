@@ -11,5 +11,8 @@ namespace TrackerApi.Services.TvShowService.ViewModel
         [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
         [StringLength(255, MinimumLength = 1, ErrorMessage = "Description must have at least one character")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
+        public bool StillGoing { get; set; }
     }
 }

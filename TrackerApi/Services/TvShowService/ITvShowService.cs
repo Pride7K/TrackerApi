@@ -15,7 +15,8 @@ namespace TrackerApi.Services.TvShowService
         Task<TvShow> Update(int tvShowId,PutTvShowViewModel model);
 
         Task<TvShow> Create(CreateTvShowViewModel model);
-        void Delete(int id);
+        Task Delete(int id);
+        Task Load();
 
 
     }

@@ -10,6 +10,7 @@ namespace TrackerApi.Models
         public string Description { get; set; }
 
         public bool Available { get; set; }
+        public bool StillGoing { get; set; }
         public GenreEnum Genre { get; set; }
         public virtual List<Episode> Episodes { get; set; }
 

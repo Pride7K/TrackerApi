@@ -75,6 +75,17 @@ namespace TrackerApi.Controllers
             
         }
 
+        [HttpPost]
+        [Route("load")]
+        [Authorize]
+
+        public async Task<IActionResult> PostLoadAsync()
+        {
+            await _service.Load();
+
+            return Ok();
+        }
+
 
 
         [HttpPut("{id:int}")]
@@ -119,7 +130,7 @@ namespace TrackerApi.Controllers
 
             try
             {
-                _service.Delete(id);
+                await _service.Delete(id);
 
                 return Ok();
             }
