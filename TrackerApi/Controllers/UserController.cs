@@ -51,7 +51,7 @@ namespace TrackerApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostAsync( [FromBody] CreateUserViewModel model)
+        public async Task<IActionResult> PostAsync( [FromBody] CreateUserViewModel model)
         {
 
 
@@ -60,7 +60,7 @@ namespace TrackerApi.Controllers
 
             try
             {
-                var user =  _service.Create(model);
+                var user =  await _service.Create(model);
 
                 return Created($"v1/users/{user.Id}", user);
             }

@@ -10,6 +10,6 @@ namespace TrackerApi.Services.UserService
         Task<GetUsersViewModel> GetAll(int skip, int take);
         Task<User> GetById(int id);
         Task<User> GetByEmail(string email);
-        User Create(CreateUserViewModel model);
+        Task<User> Create(CreateUserViewModel model);
     }
 }

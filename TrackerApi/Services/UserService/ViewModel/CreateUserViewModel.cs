@@ -5,17 +5,15 @@ namespace TrackerApi.Services.UserService.ViewModel
 {
     public class CreateUserViewModel
     {
-        [Required(ErrorMessage = "This field is required")]
-        [MinLength(1, ErrorMessage = "")]
-        [MaxLength(255, ErrorMessage = "")]
+        [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
+        [StringLength(255, MinimumLength = 1, ErrorMessage = "Name must have at least one character")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "This field is required")]
-        [MinLength(3, ErrorMessage = "")]
-        [MaxLength(255, ErrorMessage = "")]
+        [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
+        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Please inform a valid email")]
+        [StringLength(255, MinimumLength = 1, ErrorMessage = "Email must have at least one character")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "This field is required")]
-        [MinLength(1, ErrorMessage = "")]
-        [MaxLength(255, ErrorMessage = "")]
+        [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
+        [StringLength(255, MinimumLength = 4, ErrorMessage = "Password must have at four one character")]
         public string Password { get; set; }
     }
 }

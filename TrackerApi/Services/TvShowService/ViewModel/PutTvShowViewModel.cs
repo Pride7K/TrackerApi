@@ -4,7 +4,11 @@ namespace TrackerApi.Services.TvShowService.ViewModel
 {
     public class PutTvShowViewModel
     {
+        [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
+        [StringLength(255, MinimumLength = 1, ErrorMessage = "Title must have at least one character")]
         public string Title { get; set; }
+        [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
+        [StringLength(255, MinimumLength = 1, ErrorMessage = "Description must have at least one character")]
         public string Description { get; set; }
         public bool? Available { get; set; }
     }

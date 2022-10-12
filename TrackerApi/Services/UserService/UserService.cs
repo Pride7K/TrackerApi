@@ -19,10 +19,10 @@ namespace TrackerApi.Services.UserService
             _context = context;
         }
 
-        public  User Create(CreateUserViewModel model)
+        public  async Task<User> Create(CreateUserViewModel model)
         {
 
-            var userDb = GetByEmail(model.Email);
+            var userDb = await GetByEmail(model.Email);
 
             if (userDb != null)
                 throw new AlreadyExistsException("User already Exists!");
@@ -34,9 +34,9 @@ namespace TrackerApi.Services.UserService
                 Password = model.Password
             };
 
-             _context.Users.AddAsync(user);
+             await _context.Users.AddAsync(user);
 
-             _context.SaveChangesAsync();
+             await _context.SaveChangesAsync();
 
             return user;
         }
