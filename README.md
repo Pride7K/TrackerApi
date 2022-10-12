@@ -66,3 +66,17 @@ One cool thing that we can see in the image above is the routing.
 
 As we can see we are doing routing in a different way, as an example, "skip:int". We could have done in the normal way such as [FromRoute] but doing in this way it´s forces the consumer to pass a value with the type that we are expecting. If the consumer passes a value such as string instead a int he is going to get a 404 error.
 
+### References
+
+[MVCS](https://quantiphi.com/an-introduction-to-mvcs-architecture/)
+[Shared Cache Sql Lite](https://www.sqlite.org/sharedcache.html)
+[Dependency Injection](https://www.tutorialsteacher.com/ioc/dependency-injection)
+[Types of DI](https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences)
+[Data Annotation](https://www.macoratti.net/13/12/c_vdda.htm)
+[Xunit With Moq](https://www.macoratti.net/19/10/cshp_unitestmoq1.htm)
+[Xunit With Moq](https://www.macoratti.net/19/10/cshp_unitestmoq1.htm)
+[Moq](https://softchris.github.io/pages/dotnet-moq.html#instruct-our-mock)
+[MVC With Asp Net Core](https://www.macoratti.net/19/09/aspc_utst2.htm)
+[Relationships in Entity Framework Core](https://www.c-sharpcorner.com/article/relationships-in-entity-framework-core/)
+[More Relationships in Entity Framework Core](https://www.learnentityframeworkcore.com/relationships/managing-one-to-many-relationships)
+[Even More Relationships in Entity Framework Core](https://medium.com/@alexandre.malavasi/série-entity-framework-relações-entre-tabelas-parte-6-f06abf0a00d)
