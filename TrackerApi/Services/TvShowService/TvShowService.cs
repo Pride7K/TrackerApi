@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
+using TrackerApi.Services.ActorService.ViewModel;
 using TrackerApi.Services.Erros;
 using TrackerApi.Services.TvShowService.ViewModel;
 
@@ -14,6 +16,10 @@ namespace TrackerApi.Services.TvShowService
 {
     public class TvShowService : ITvShowService
     {
+        const string GENRE_KEY = "genre";
+        const string AVAILABLE_KEY = "available";
+        const string STILL_GOING_KEY = "still_going";
+
         private readonly AppDbContext _context;
         public TvShowService(AppDbContext context)
         {
@@ -55,23 +61,58 @@ namespace TrackerApi.Services.TvShowService
             await _context.SaveChangesAsync();
         }
 
-        public async Task<GetTvShowViewModel> GetAll(int skip, int take)
+        public IEnumerable<TvShow> SeparateSort<T>(IQueryable<TvShow> tvShows, Func<TvShow, T> keySelector, GetTvShowFiltersViewModel filter)
+        {
+            return filter.Sort == "ASC"
+                ? tvShows.OrderBy(keySelector)
+                : tvShows.OrderByDescending(keySelector);
+        }
+
+        public async Task<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter)
         {
             var totalTvShows = await _context.TvShows.CountAsync();
 
 
-            var tvshows = await _context.TvShows
-                .Where(x => x.Available)
+            var tvshows =  _context.TvShows
                 .Include(x => x.Episodes)
                 .AsNoTracking()
                 .Skip(skip)
-                .Take(take)
-                .ToListAsync();
+                .Take(take).AsQueryable();
+
+            if(filter != null)
+            {
+                if(filter.Available.HasValue)
+                {
+                    tvshows = tvshows.Where(x => x.Available == filter.Available.Value);
+                }
+                if (filter.StillGoing.HasValue)
+                {
+                    tvshows = tvshows.Where(x => x.StillGoing == filter.StillGoing.Value);
+                }
+                if (filter.Genre.HasValue)
+                {
+                    tvshows = tvshows.Where(x => (int)x.Genre == filter.Genre);
+                }
+
+                if(!string.IsNullOrEmpty(filter.Sort))
+                {
+                    var optionChoosedToSort = filter.TypesSorting.FirstOrDefault(x => x.ToLower() == filter.SortingBy?.ToLower());
+
+                    tvshows = optionChoosedToSort switch
+                    {
+                        GENRE_KEY => SeparateSort(tvshows, x => x.Genre, filter).AsQueryable(),
+                        AVAILABLE_KEY => SeparateSort(tvshows, x => x.Available, filter).AsQueryable(),
+                        STILL_GOING_KEY => SeparateSort(tvshows, x => x.StillGoing, filter).AsQueryable(),
+                        _ => null
+                    };
+
+                }
+            }
 
             return new GetTvShowViewModel()
             {
                 TotalTvShows = totalTvShows,
-                TvShows = tvshows
+                TvShows =  tvshows.ToList()
             };
         }
 
@@ -110,6 +151,25 @@ namespace TrackerApi.Services.TvShowService
 
             }
 
+        }
+
+        public async Task<GetActorViewModel> GetAllActors(int tvShowId)
+        {
+
+
+            var tvshows = _context.TvShows
+                .Where(x => x.Id == tvShowId)
+                .Include(x => x.ActorTvShow)
+                .ThenInclude(x => x.Actor)
+                .AsNoTracking().ToList();
+
+            if(tvshows.Count == 0)
+                throw new NotFoundException("Not found");
+
+            return new GetActorViewModel()
+            {
+                Actors = tvshows.First().ActorTvShow.Select(t => t.Actor).ToList()
+            };
         }
 
         public async Task<TvShow> Update(int tvShowId, PutTvShowViewModel model)

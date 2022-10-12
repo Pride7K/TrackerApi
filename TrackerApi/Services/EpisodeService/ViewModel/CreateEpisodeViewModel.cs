@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TrackerApi.Services.EpisodeService.ViewModel
 {
-    public class CreateEpisodeViewModel
+    public struct CreateEpisodeViewModel
     {
         [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
         public DateTime ReleaseDate { get; set; }

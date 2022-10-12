@@ -2,7 +2,7 @@
 
 namespace TrackerApi.Services.TvShowService.ViewModel
 {
-    public class PutTvShowViewModel
+    public struct PutTvShowViewModel
     {
         [StringLength(255, MinimumLength = 1, ErrorMessage = "Title must have at least one character")]
         public string Title { get; set; }

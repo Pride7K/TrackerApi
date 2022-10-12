@@ -11,5 +11,6 @@ namespace TrackerApi.Services.UserService
         Task<User> GetById(int id);
         Task<User> GetByEmail(string email);
         Task<User> Create(CreateUserViewModel model);
+        Task Favorite(string userEmail, FavoriteTvShowViewModel model);
     }
 }

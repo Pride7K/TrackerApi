@@ -2,7 +2,7 @@
 
 namespace TrackerApi.Services.Login.ViewModel
 {
-    public class AuthenticateUserViewModel
+    public struct AuthenticateUserViewModel
     {
         [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
         public string Email { get; set; }

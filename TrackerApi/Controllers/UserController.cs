@@ -9,6 +9,8 @@ using TrackerApi.Models;
 using TrackerApi.Services.Erros;
 using TrackerApi.Services.UserService;
 using TrackerApi.Services.UserService.ViewModel;
+using System.Security.Claims;
+
 
 namespace TrackerApi.Controllers
 {
@@ -51,6 +53,30 @@ namespace TrackerApi.Controllers
         }
 
         [HttpPost]
+        [Route("tvshow/favorite")]
+        [Authorize]
+
+        public async Task<IActionResult> PostFavoriteAsync([FromBody] FavoriteTvShowViewModel model)
+        {
+            try
+            {
+                var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+                await _service.Favorite(userEmail, model);
+
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem($"An error occured: {e.Message}");
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> PostAsync( [FromBody] CreateUserViewModel model)
         {
 
@@ -66,7 +92,7 @@ namespace TrackerApi.Controllers
             }
             catch (AlreadyExistsException e)
             {
-                return Problem($"An error occured: {e.Message}");
+                return Problem(e.Message);
             }
             catch (Exception e)
             {

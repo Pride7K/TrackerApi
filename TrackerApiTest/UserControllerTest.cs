@@ -37,13 +37,15 @@ namespace TrackerApiTest
         }
 
         [Fact]
-        public void MustNotCreateUser()
+        public void Should_Return_UserAlreadyExists()
         {
             var cardMock = new Mock<User>();
 
             var testObject = new CreateUserViewModel()
             {
-                
+                Name = "sdsd",
+                Email = "sdsdsd",
+                Password = "sdsdsd"
             };
 
             Moq.Mock<IUserService> mock = new Moq.Mock<IUserService>();
@@ -53,7 +55,9 @@ namespace TrackerApiTest
 
             var result = (Microsoft.AspNetCore.Mvc.CreatedResult)userController.PostAsync(testObject).Result;
 
-            Assert.True(result.StatusCode != 201);
+            var result2 = (Microsoft.AspNetCore.Mvc.CreatedResult)userController.PostAsync(testObject).Result;
+
+            Assert.True(result2.StatusCode != 201);
         }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using TrackerApi.Data;
+using TrackerApi.Services.ActorService;
 using TrackerApi.Services.EpisodeService;
 using TrackerApi.Services.LoginService;
 using TrackerApi.Services.TvShowService;
@@ -30,6 +31,7 @@ namespace TrackerApi
             services.AddScoped<ITvShowService, TvShowService>();
             services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IActorService, ActorService>();
             services.AddControllers();
 
             services.AddControllers().AddNewtonsoftJson(options =>

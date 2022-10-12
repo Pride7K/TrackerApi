@@ -2,7 +2,7 @@
 
 namespace TrackerApi.Services.TvShowService.ViewModel
 {
-    public class CreateTvShowViewModel
+    public struct CreateTvShowViewModel
     {
         [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
         [StringLength(255, MinimumLength = 1, ErrorMessage = "Title must have at least one character")]

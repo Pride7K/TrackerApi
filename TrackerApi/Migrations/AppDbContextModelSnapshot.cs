@@ -16,21 +16,6 @@ namespace TrackerApi.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.17");
 
-            modelBuilder.Entity("ActorTvShow", b =>
-                {
-                    b.Property<int>("ActorsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TvShowsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ActorsId", "TvShowsId");
-
-                    b.HasIndex("TvShowsId");
-
-                    b.ToTable("ActorTvShow");
-                });
-
             modelBuilder.Entity("TrackerApi.Models.Actor", b =>
                 {
                     b.Property<int>("Id")
@@ -46,6 +31,21 @@ namespace TrackerApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Actors");
+                });
+
+            modelBuilder.Entity("TrackerApi.Models.ActorTvShow", b =>
+                {
+                    b.Property<int>("ActorsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TvShowsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ActorsId", "TvShowsId");
+
+                    b.HasIndex("TvShowsId");
+
+                    b.ToTable("ActorTvShow");
                 });
 
             modelBuilder.Entity("TrackerApi.Models.Episode", b =>
@@ -116,19 +116,38 @@ namespace TrackerApi.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ActorTvShow", b =>
+            modelBuilder.Entity("TrackerApi.Models.UserTvShowFavorite", b =>
                 {
-                    b.HasOne("TrackerApi.Models.Actor", null)
-                        .WithMany()
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TvShowsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId", "TvShowsId");
+
+                    b.HasIndex("TvShowsId");
+
+                    b.ToTable("UserTvShowFavorite");
+                });
+
+            modelBuilder.Entity("TrackerApi.Models.ActorTvShow", b =>
+                {
+                    b.HasOne("TrackerApi.Models.Actor", "Actor")
+                        .WithMany("ActorTvShow")
                         .HasForeignKey("ActorsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrackerApi.Models.TvShow", null)
-                        .WithMany()
+                    b.HasOne("TrackerApi.Models.TvShow", "TvShow")
+                        .WithMany("ActorTvShow")
                         .HasForeignKey("TvShowsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("TvShow");
                 });
 
             modelBuilder.Entity("TrackerApi.Models.Episode", b =>
@@ -142,9 +161,42 @@ namespace TrackerApi.Migrations
                     b.Navigation("TvShow");
                 });
 
+            modelBuilder.Entity("TrackerApi.Models.UserTvShowFavorite", b =>
+                {
+                    b.HasOne("TrackerApi.Models.TvShow", "TvShow")
+                        .WithMany("UserTvShowFavorite")
+                        .HasForeignKey("TvShowsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrackerApi.Models.User", "User")
+                        .WithMany("UserTvShowFavorite")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TvShow");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TrackerApi.Models.Actor", b =>
+                {
+                    b.Navigation("ActorTvShow");
+                });
+
             modelBuilder.Entity("TrackerApi.Models.TvShow", b =>
                 {
+                    b.Navigation("ActorTvShow");
+
                     b.Navigation("Episodes");
+
+                    b.Navigation("UserTvShowFavorite");
+                });
+
+            modelBuilder.Entity("TrackerApi.Models.User", b =>
+                {
+                    b.Navigation("UserTvShowFavorite");
                 });
 #pragma warning restore 612, 618
         }

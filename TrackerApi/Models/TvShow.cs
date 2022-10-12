@@ -14,7 +14,10 @@ namespace TrackerApi.Models
         public GenreEnum Genre { get; set; }
         public virtual List<Episode> Episodes { get; set; }
 
-        public virtual List<Actor> Actors { get; set; }
+        public virtual List<ActorTvShow> ActorTvShow { get; set; }
+
+        public virtual List<UserTvShowFavorite> UserTvShowFavorite { get; set; }
+
 
         public enum GenreEnum
         {

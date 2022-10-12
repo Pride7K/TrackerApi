@@ -12,6 +12,8 @@ namespace TrackerApi.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Episode> Episodes { get; set; }
+        public DbSet<ActorTvShow> ActorTvShow { get; set; }
+        public DbSet<UserTvShowFavorite> UserTvShowFavorite { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -20,13 +22,32 @@ namespace TrackerApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ActorTvShow>().HasKey(x => new { x.ActorsId, x.TvShowsId });
+            modelBuilder.Entity<UserTvShowFavorite>().HasKey(x => new { x.UserId, x.TvShowsId });
+
+            modelBuilder.Entity<ActorTvShow>()
+    .HasOne<Actor>(sc => sc.Actor)
+    .WithMany(s => s.ActorTvShow)
+    .HasForeignKey(sc => sc.ActorsId);
+
+            modelBuilder.Entity<ActorTvShow>().HasOne(pt => pt.TvShow)
+.WithMany(p => p.ActorTvShow)
+.HasForeignKey(pt => pt.TvShowsId);
+
+            modelBuilder.Entity<UserTvShowFavorite>()
+.HasOne<User>(sc => sc.User)
+.WithMany(s => s.UserTvShowFavorite)
+.HasForeignKey(sc => sc.UserId);
+
+            modelBuilder.Entity<UserTvShowFavorite>().HasOne(pt => pt.TvShow)
+.WithMany(p => p.UserTvShowFavorite)
+.HasForeignKey(pt => pt.TvShowsId);
+
             modelBuilder.Entity<TvShow>()
                 .HasMany(c => c.Episodes)
                 .WithOne(e => e.TvShow).IsRequired();
 
-            modelBuilder.Entity<TvShow>()
-                .HasMany(c => c.Actors)
-                .WithMany(e => e.TvShows);
+            
         }
     }
 }

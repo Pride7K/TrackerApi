@@ -4,7 +4,7 @@ using TrackerApi.Models;
 
 namespace TrackerApi.Services.UserService.ViewModel
 {
-    public class GetUsersViewModel
+    public struct GetUsersViewModel
     {
         public int TotalUsers { get; set; }
         public List<User> Users { get; set; }

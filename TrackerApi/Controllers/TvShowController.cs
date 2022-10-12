@@ -27,13 +27,14 @@ namespace TrackerApi.Controllers
         [HttpGet("skip/{skip:int}/take/{take:int}")]
 
         public async Task<IActionResult> GetAsync(
-            [FromRoute] int skip = 0
-            ,[FromRoute] int take = 25)
+            [FromQuery] GetTvShowFiltersViewModel filter,
+            [FromRoute] int skip = 0,
+            [FromRoute] int take = 25)
         {
             if (take > 1000)
                 return BadRequest();
 
-            var data = await _service.GetAll(skip, take);
+            var data = await _service.GetAll(skip, take, filter);
 
             return Ok(data);
         }
@@ -120,6 +121,29 @@ namespace TrackerApi.Controllers
             var tvshow = await _service.GetTvShowWithEpisode(id);
 
             return tvshow == null ? NotFound() : Ok(tvshow.Episodes);
+        }
+
+
+        [HttpGet]
+        [Route("{id:int}/actors")]
+
+        public async Task<IActionResult> GetActorsAsync([FromRoute] int id)
+        {
+
+            try
+            {
+                var actors = await _service.GetAllActors(id);
+
+                return Ok(actors);
+            }
+            catch(NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem($"An error occured: {e.Message}");
+            }
         }
 
         [HttpDelete("{id:int}")]
