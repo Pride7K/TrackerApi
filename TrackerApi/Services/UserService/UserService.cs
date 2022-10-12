@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
+using TrackerApi.Services.Erros;
 using TrackerApi.Services.UserService.ViewModel;
 
 namespace TrackerApi.Services.UserService
@@ -20,6 +21,12 @@ namespace TrackerApi.Services.UserService
 
         public  User Create(CreateUserViewModel model)
         {
+
+            var userDb = GetByEmail(model.Email);
+
+            if (userDb != null)
+                throw new AlreadyExistsException("User already Exists!");
+
             var user = new User()
             {
                 Name = model.Name,

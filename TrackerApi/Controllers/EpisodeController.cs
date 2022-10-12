@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
-using TrackerApi.ViewModel.Episode;
+using TrackerApi.Services.EpisodeService;
+using TrackerApi.Services.EpisodeService.ViewModel;
+using TrackerApi.Services.Erros;
+using TrackerApi.Services.TvShowService;
 
 namespace TrackerApi.Controllers
 {
@@ -12,38 +16,32 @@ namespace TrackerApi.Controllers
     [Route("v1/episodes")]
     public class EpisodeController : ControllerBase
     {
-
+        private readonly IEpisodeService _service;
+        public EpisodeController(IEpisodeService service)
+        {
+            _service = service;
+        }
         [HttpPost]
         [Authorize]
 
-        public async Task<IActionResult> PostAsync([FromServices] AppDbContext context, [FromBody] CreateEpisodeViewModel model)
+        public  IActionResult PostAsync([FromServices] AppDbContext context, [FromBody] CreateEpisodeViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var tvshow = await context.TvShows.FirstOrDefaultAsync(x => x.Id == model.TvShowId);
-
-            if (tvshow == null)
-                return NotFound();
-
-            var episode = new Episode()
-            {
-                Description = model.Description,
-                ReleaseDate = model.ReleaseDate,
-                TvShowId = tvshow.Id
-            };
-
             try
             {
-                await context.Episodes.AddAsync(episode);
-
-                await context.SaveChangesAsync();
+                var tvshow = _service.Create(model);
 
                 return Created($"v1/episodes/{tvshow.Id}", tvshow);
             }
-            catch
+            catch (NotFoundException e)
             {
-                return BadRequest();
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem($"An error occured: {e.Message}");
             }
         }
     }

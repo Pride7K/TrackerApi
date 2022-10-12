@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
+using TrackerApi.Services.Erros;
 using TrackerApi.Services.TvShowService.ViewModel;
 
 namespace TrackerApi.Services.TvShowService
@@ -18,6 +19,11 @@ namespace TrackerApi.Services.TvShowService
 
         public async Task<TvShow> Create(CreateTvShowViewModel model)
         {
+            var tvshowDb = await this.GetByTitle(model.Title);
+
+            if (tvshowDb != null)
+                throw new AlreadyExistsException("The Tv Show already exists!");
+
             var tvshow = new TvShow()
             {
                 Title = model.Title,
@@ -32,8 +38,13 @@ namespace TrackerApi.Services.TvShowService
             return tvshow;
         }
 
-        public async void Delete(TvShow tvshow)
+        public async void Delete(int id)
         {
+            var tvshow = await this.GetById(id);
+
+            if (tvshow == null)
+                throw new NotFoundException("Not found");
+
             _context.TvShows.Remove(tvshow);
 
             await _context.SaveChangesAsync();
@@ -71,11 +82,18 @@ namespace TrackerApi.Services.TvShowService
 
         public Task<TvShow> GetTvShowWithEpisode(int tvShowId)
         {
-            return  _context.TvShows.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == tvShowId);
+            return _context.TvShows.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == tvShowId);
         }
 
-        public async Task<TvShow> Update(TvShow tvshow, PutTvShowViewModel model)
+        public async Task<TvShow> Update(int tvShowId, PutTvShowViewModel model)
         {
+
+            var tvshow = await this.GetById(tvShowId);
+
+            if (tvshow == null)
+                throw new NotFoundException("Not found");
+
+
             if (model.Title != null)
             {
                 tvshow.Title = model.Title;

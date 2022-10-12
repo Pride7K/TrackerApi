@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
 using TrackerApi.Services;
-using TrackerApi.ViewModel.Login;
+using TrackerApi.Services.EpisodeService;
+using TrackerApi.Services.Erros;
+using TrackerApi.Services.Login.ViewModel;
+using TrackerApi.Services.LoginService;
 
 namespace TrackerApi.Controllers
 {
@@ -13,27 +17,34 @@ namespace TrackerApi.Controllers
     [Route("v1/login")]
     public class LoginController : ControllerBase
     {
+        private readonly ILoginService _service;
+        public LoginController(ILoginService service)
+        {
+            _service = service;
+        }
 
         [HttpPost("user")]
         [AllowAnonymous]
         public async Task<ActionResult<dynamic>> Authenticate([FromServices] AppDbContext context, [FromBody] AuthenticateUserViewModel model)
         {
-            var user = await context.Users.FirstOrDefaultAsync(x => x.Email == model.Email && x.Password == x.Password);
-
-            if (user == null)
-                return NotFound();
-
-            if (!user.Active)
-                return Unauthorized();
-
-            var token = TokenService.GenerateToken(user);
-            user.Password = "";
-
-            return new
+            try
             {
-                user = user,
-                token = token
-            };
+                var data = await _service.Authenticate(model);
+
+                return Ok(data);
+            }
+            catch (UnauthorizedException e)
+            {
+                return Unauthorized(e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem($"An error occured: {e.Message}");
+            }
 
         }
     }

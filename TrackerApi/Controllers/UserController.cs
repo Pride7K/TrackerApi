@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
+using TrackerApi.Services.Erros;
 using TrackerApi.Services.UserService;
 using TrackerApi.Services.UserService.ViewModel;
 
@@ -42,7 +44,7 @@ namespace TrackerApi.Controllers
             var user = await _service.GetById(id);
 
             if (user == null)
-                return NotFound();
+                return NotFound(new { ErrorMessage = "Not found", model = user });
 
 
             return Ok(user);
@@ -54,12 +56,7 @@ namespace TrackerApi.Controllers
 
 
             if (!ModelState.IsValid)
-                return BadRequest();
-
-            var userDb = await _service.GetByEmail(model.Email);
-
-            if (userDb != null)
-                return BadRequest(userDb);
+                return BadRequest(new { ErrorMessage = "Must provide a valid object", model = model });
 
             try
             {
@@ -67,9 +64,13 @@ namespace TrackerApi.Controllers
 
                 return Created($"v1/users/{user.Id}", user);
             }
-            catch
+            catch (AlreadyExistsException e)
             {
-                return BadRequest();
+                return Problem($"An error occured: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                return Problem($"An error occured: {e.Message}");
             }
 
         }

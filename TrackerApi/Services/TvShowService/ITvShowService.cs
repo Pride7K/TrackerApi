@@ -12,10 +12,10 @@ namespace TrackerApi.Services.TvShowService
         Task<TvShow> GetById(int id);
         Task<TvShow> GetByTitle(string title);
         Task<TvShow> GetTvShowWithEpisode(int tvShowId);
-        Task<TvShow> Update(TvShow tvshow,PutTvShowViewModel model);
+        Task<TvShow> Update(int tvShowId,PutTvShowViewModel model);
 
         Task<TvShow> Create(CreateTvShowViewModel model);
-        void Delete(TvShow tvshow);
+        void Delete(int id);
 
 
     }

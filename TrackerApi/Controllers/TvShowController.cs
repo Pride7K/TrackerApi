@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
+using TrackerApi.Services.Erros;
 using TrackerApi.Services.TvShowService;
 using TrackerApi.Services.TvShowService.ViewModel;
 
@@ -53,22 +55,21 @@ namespace TrackerApi.Controllers
         public async Task<IActionResult> PostAsync( [FromBody] CreateTvShowViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new { ErrorMessage = "Must provide a valid object", model = model });
 
-            var tvshowDb = await _service.GetByTitle(model.Title);
-
-            if (tvshowDb != null)
-                return BadRequest(tvshowDb);
-        
             try
             {
                 var tvshow = await _service.Create(model);
 
                 return Created($"v1/tvshows/{tvshow.Id}",tvshow);
             }
-            catch
+            catch(AlreadyExistsException e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
+            }
+            catch(Exception e)
+            {
+                return Problem( $"An error occured: {e.Message}");
             }
 
             
@@ -82,22 +83,21 @@ namespace TrackerApi.Controllers
         public async Task<IActionResult> PutAsync( [FromRoute] int id, [FromBody] PutTvShowViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
-
-            var tvshow = await _service.GetById(id );
-
-            if (tvshow == null)
-                return NotFound();
+                return BadRequest(new { ErrorMessage = "Must provide a valid object", model = model });
 
             try
             {
-                await _service.Update(tvshow,model);
+                var tvshow = await _service.Update(id,model);
 
                 return Ok(tvshow);
             }
-            catch
+            catch (NotFoundException e)
             {
-                return BadRequest();
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem($"An error occured: {e.Message}");
             }
         }
 
@@ -117,20 +117,19 @@ namespace TrackerApi.Controllers
         public async Task<IActionResult> DeleteAsync( [FromRoute] int id)
         {
 
-            var tvshow = await _service.GetById(id);
-
-            if (tvshow == null)
-                return NotFound();
-
             try
             {
-                _service.Delete(tvshow);
+                _service.Delete(id);
 
                 return Ok();
             }
-            catch
+            catch (NotFoundException e)
             {
-                return BadRequest();
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem($"An error occured: {e.Message}");
             }
         }
 

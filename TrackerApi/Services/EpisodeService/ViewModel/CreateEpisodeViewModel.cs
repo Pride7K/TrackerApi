@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TrackerApi.Services.Episode.ViewModel
+namespace TrackerApi.Services.EpisodeService.ViewModel
 {
     public class CreateEpisodeViewModel
     {
