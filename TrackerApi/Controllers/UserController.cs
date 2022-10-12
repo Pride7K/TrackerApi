@@ -51,7 +51,7 @@ namespace TrackerApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync( [FromBody] CreateUserViewModel model)
+        public IActionResult PostAsync( [FromBody] CreateUserViewModel model)
         {
 
 

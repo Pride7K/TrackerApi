@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
 using TrackerApi.Services.EpisodeService.ViewModel;
@@ -13,10 +14,10 @@ namespace TrackerApi.Services.EpisodeService
         {
             _context = context;
         }
-        public void Create(CreateEpisodeViewModel model)
+        public async Task<TvShow> Create(CreateEpisodeViewModel model)
         {
 
-            var tvshow  = _context.TvShows.FirstOrDefaultAsync(x => x.Id == model.TvShowId);
+            var tvshow  = await _context.TvShows.FirstOrDefaultAsync(x => x.Id == model.TvShowId);
 
             if (tvshow == null)
                 throw new NotFoundException("Tv Show Not Found");
@@ -28,8 +29,8 @@ namespace TrackerApi.Services.EpisodeService
                 TvShowId = tvshow.Id
             };
 
-             _context.Episodes.AddAsync(episode);
-             _context.SaveChangesAsync();
+             await _context.Episodes.AddAsync(episode);
+             await _context.SaveChangesAsync();
 
             return tvshow;
 

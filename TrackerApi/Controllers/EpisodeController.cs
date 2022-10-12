@@ -24,14 +24,14 @@ namespace TrackerApi.Controllers
         [HttpPost]
         [Authorize]
 
-        public  IActionResult PostAsync([FromServices] AppDbContext context, [FromBody] CreateEpisodeViewModel model)
+        public async Task<IActionResult> PostAsync([FromServices] AppDbContext context, [FromBody] CreateEpisodeViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
             try
             {
-                var tvshow = _service.Create(model);
+                var tvshow = await _service.Create(model);
 
                 return Created($"v1/episodes/{tvshow.Id}", tvshow);
             }
