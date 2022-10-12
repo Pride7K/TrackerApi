@@ -27,13 +27,13 @@ namespace TrackerApiTest
             };
 
             Moq.Mock<IUserService> mock = new Moq.Mock<IUserService>();
-            mock.Setup(x => x.Create(It.IsAny<CreateUserViewModel>())).Returns((cardMock.Object));
+            mock.Setup(x => x.Create(It.IsAny<CreateUserViewModel>())).Returns(Task.FromResult(cardMock.Object));
 
             var userController = new UserController(mock.Object);
 
             var result = (Microsoft.AspNetCore.Mvc.CreatedResult)userController.PostAsync(testObject).Result;
 
-            Assert.True(result.StatusCode == 200);
+            Assert.True(result.StatusCode == 201);
         }
 
         [Fact]
@@ -47,13 +47,13 @@ namespace TrackerApiTest
             };
 
             Moq.Mock<IUserService> mock = new Moq.Mock<IUserService>();
-            mock.Setup(x => x.Create(testObject)).Returns((cardMock.Object));
+            mock.Setup(x => x.Create(testObject)).Returns(Task.FromResult(cardMock.Object));
 
             var userController = new UserController(mock.Object);
 
             var result = (Microsoft.AspNetCore.Mvc.CreatedResult)userController.PostAsync(testObject).Result;
 
-            Assert.True(result.StatusCode != 200);
+            Assert.True(result.StatusCode != 201);
         }
     }
 }
