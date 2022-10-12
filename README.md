@@ -66,6 +66,55 @@ One cool thing that we can see in the image above is the routing.
 
 As we can see we are doing routing in a different way, as an example, "skip:int". We could have done in the normal way such as [FromRoute] but doing in this way it´s forces the consumer to pass a value with the type that we are expecting. If the consumer passes a value such as string instead a int he is going to get a 404 error.
 
+### Services.cs
+
+![image](https://user-images.githubusercontent.com/52872315/195324794-2867ce29-ac30-4398-9e59-922cdecdaaf2.png)
+
+
+Here we have the IService interface that provides the methods, and the class that implements. We also have the folder called ViewModel, that has the DTO classes.
+
+![image](https://user-images.githubusercontent.com/52872315/195325797-34abecbf-8157-4968-bf6d-ec4a75e60c38.png)
+*Quick example of the interface*
+
+![image](https://user-images.githubusercontent.com/52872315/195326618-182ed49e-5ca7-44ae-ba0e-e681d552f660.png)
+
+
+We can se in the image above that the class implements the interface and also has a DI.
+
+### Custom Errors
+
+![image](https://user-images.githubusercontent.com/52872315/195327653-5a093981-499a-4841-a5f5-f7216d8e14d6.png)
+
+We have some classes for custom erros that we use to throw inside the business class to the controller layers.
+
+### JWT
+
+
+
+### How to Set up?
+
+Clone the project where you want to save it
+
+Open the solution
+
+Go to the package manager console
+
+Run the command
+
+```
+dotnet-ef database update
+```
+
+Open cmd inside the TrackerApi Folder
+
+Run the command 
+
+```
+dotnet watch run
+```
+
+
+
 ### References
 
 [MVCS](https://quantiphi.com/an-introduction-to-mvcs-architecture/)
