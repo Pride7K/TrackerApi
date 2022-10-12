@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TrackerApi.ViewModel.Login
+namespace TrackerApi.Services.Login.ViewModel
 {
     public class AuthenticateUserViewModel
     {
