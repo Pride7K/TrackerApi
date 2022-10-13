@@ -39,6 +39,22 @@ namespace TrackerApi.Controllers
             return Ok(data);
         }
 
+        [HttpGet("recomendations/skip/{skip:int}/take/{take:int}")]
+
+        public async Task<IActionResult> GetRecomendationsAsync(
+    [FromQuery] GetTvShowFiltersViewModel filter,
+    [FromRoute] int skip = 0,
+    [FromRoute] int take = 25)
+        {
+            if (take > 1000)
+                return BadRequest();
+
+            var data = await _service.GetRecomendationsAll(skip, take, filter);
+
+            return Ok(data);
+        }
+
+
 
         [HttpGet]
         [Route("{id:int}")]

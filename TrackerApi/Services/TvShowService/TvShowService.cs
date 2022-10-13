@@ -11,6 +11,7 @@ using TrackerApi.Models;
 using TrackerApi.Services.ActorService.ViewModel;
 using TrackerApi.Services.Erros;
 using TrackerApi.Services.TvShowService.ViewModel;
+using TrackerApi.Services.UserService;
 
 namespace TrackerApi.Services.TvShowService
 {
@@ -21,9 +22,11 @@ namespace TrackerApi.Services.TvShowService
         const string STILL_GOING_KEY = "still_going";
 
         private readonly AppDbContext _context;
-        public TvShowService(AppDbContext context)
+        private readonly IUserService _userService;
+        public TvShowService(AppDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         public async Task<TvShow> Create(CreateTvShowViewModel model)
@@ -66,6 +69,20 @@ namespace TrackerApi.Services.TvShowService
             return filter.Sort == "ASC"
                 ? tvShows.OrderBy(keySelector)
                 : tvShows.OrderByDescending(keySelector);
+        }
+
+        public async Task<GetTvShowViewModel> GetRecomendationsAll(int skip, int take, GetTvShowFiltersViewModel filter)
+        {
+            var data = await GetAll(skip, take, filter);
+
+            data.TvShows = GetHalfOfTheList(data.TvShows.OrderBy(x => Guid.NewGuid()).ToList());
+
+            return data;
+        }
+
+        public List<T>  GetHalfOfTheList<T>(List<T> list)
+        {
+            return list.Select((x, i) => new { x, i }).Where(t => t.i % 2 == 0).Select(t => t.x).ToList();
         }
 
         public async Task<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter)

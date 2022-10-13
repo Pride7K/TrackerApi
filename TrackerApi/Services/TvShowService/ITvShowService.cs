@@ -10,6 +10,7 @@ namespace TrackerApi.Services.TvShowService
     public interface ITvShowService
     {
         Task<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter);
+        Task<GetTvShowViewModel> GetRecomendationsAll(int skip, int take, GetTvShowFiltersViewModel filter);
         Task<GetActorViewModel> GetAllActors(int tvShowId);
         Task<TvShow> GetById(int id);
         Task<TvShow> GetByTitle(string title);
