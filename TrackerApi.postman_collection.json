@@ -113,6 +113,47 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Favorite/Unfavorite A Tv Show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"favorite\":false,\r\n    \"tvshowId\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/v1/users/tvshow/favorite",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"v1",
+								"users",
+								"tvshow",
+								"favorite"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -141,6 +182,23 @@
 								"0",
 								"take",
 								"25"
+							],
+							"query": [
+								{
+									"key": "genre",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "DESC",
+									"disabled": true
+								},
+								{
+									"key": "sort_by",
+									"value": "genre",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -308,6 +366,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetActorsFromTvShow",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/v1/tvshows/109/actors",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"v1",
+								"tvshows",
+								"109",
+								"actors"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -331,7 +411,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Description\":\"Batman\",\r\n    \"ReleaseDate\":\"2017-11-01T00:00:00\",\r\n    \"TvShowId\":7\r\n}",
+							"raw": "{\r\n    \"Description\":\"Batman\",\r\n    \"ReleaseDate\":\"2017-11-01T00:00:00\",\r\n    \"TvShowId\":700\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -348,6 +428,107 @@
 							"path": [
 								"v1",
 								"episodes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Actors",
+			"item": [
+				{
+					"name": "GetActors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/v1/actors/skip/0/take/25",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"v1",
+								"actors",
+								"skip",
+								"0",
+								"take",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateActor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\":\"Nick Lauda\",\r\n    \"Description\":\"F1 Pilot\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/v1/actors",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"v1",
+								"actors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddActorToATvShow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/v1/actors/1/AddToTvShow/10",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"v1",
+								"actors",
+								"1",
+								"AddToTvShow",
+								"10"
 							]
 						}
 					},

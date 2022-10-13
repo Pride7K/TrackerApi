@@ -157,11 +157,11 @@ namespace TrackerApi.Services.TvShowService
         {
 
 
-            var tvshows = _context.TvShows
+            var tvshows = await _context.TvShows
                 .Where(x => x.Id == tvShowId)
                 .Include(x => x.ActorTvShow)
                 .ThenInclude(x => x.Actor)
-                .AsNoTracking().ToList();
+                .AsNoTracking().ToListAsync();
 
             if(tvshows.Count == 0)
                 throw new NotFoundException("Not found");

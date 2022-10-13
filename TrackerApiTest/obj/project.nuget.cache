@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "I7y4UPeVBjUe6wgg6rlctjUHQxW3LYdGDh1p4e5D1bxZWZ7L+pLDd78Pk56WJb7yQOSRfICucq9o7utCxs7IBw==",
+  "dgSpecHash": "ZRKtneNzhsSq4SI0eJFpumOJdvNjK+DhzIy2bh+uYai9ptZFJL/mAPtiFsbuGVNIdvAP9Qnnq/fMLkf3ghHh0g==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsantos\\OneDrive - VIA Consulting\\Desktop\\demo\\TrackerApiTest\\TrackerApiTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gsantos\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
+    "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.aspnetcore\\1.7.31\\hangfire.aspnetcore.1.7.31.nupkg.sha512",
+    "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.core\\1.7.31\\hangfire.core.1.7.31.nupkg.sha512",
+    "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.memorystorage\\1.7.0\\hangfire.memorystorage.1.7.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",

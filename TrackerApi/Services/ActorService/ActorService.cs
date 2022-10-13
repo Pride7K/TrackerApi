@@ -45,6 +45,8 @@ namespace TrackerApi.Services.ActorService
                 Description = model.Description
             };
 
+           
+
 
             await _context.Actors.AddAsync(actor);
 
@@ -92,6 +94,9 @@ namespace TrackerApi.Services.ActorService
 
             if (tvshowDb == null)
                 throw new NotFoundException("Tv Show was not found!");
+
+            if (actorDb.ActorTvShow.Any())
+                throw new AlreadyExistsException("The Actor already is part of the tv show!");
 
             var actorTvShow = new ActorTvShow()
             {

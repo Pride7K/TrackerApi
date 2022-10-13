@@ -49,13 +49,18 @@ namespace TrackerApi.Services.UserService
             var userDb = await GetByEmail(userEmail);
 
             if (userDb == null)
-                throw new NotFoundException("User already Exists!");
+                throw new NotFoundException("User Not Found!");
 
             var tvshowDb = await _tvshowService.GetById(model.tvshowId);
+
+            if (tvshowDb == null)
+                throw new NotFoundException("Tv Show Not Found!");
 
             var favoriteShow = userDb.UserTvShowFavorite.FirstOrDefault(x => x.TvShowsId == tvshowDb.Id);
 
             var canFavorite = model.favorite && favoriteShow == null;
+
+            var canUnfavorite = model.favorite && favoriteShow != null;
 
             if (canFavorite)
             {
@@ -66,7 +71,7 @@ namespace TrackerApi.Services.UserService
                     TvShow = tvshowDb
                 });
             }
-            if(!model.favorite)
+            if(canUnfavorite)
             {
                 _context.UserTvShowFavorite.Remove(favoriteShow);
             }

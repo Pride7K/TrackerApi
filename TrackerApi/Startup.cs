@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using TrackerApi.Data;
 using TrackerApi.Services.ActorService;
 using TrackerApi.Services.EpisodeService;
@@ -32,6 +36,7 @@ namespace TrackerApi
             services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IActorService, ActorService>();
+
             services.AddControllers();
 
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -56,15 +61,14 @@ namespace TrackerApi
                     ValidateAudience = false
                 };
             });
+
+            services.AddHangfire(configuration => configuration.UseMemoryStorage());
+
+            services.AddHangfireServer();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
 
             app.UseHttpsRedirection();
 
@@ -77,11 +81,25 @@ namespace TrackerApi
             app.UseAuthorization();
 
 
+            app.UseHangfireDashboard();
 
+            BackgroundJob.Enqueue(() => LoadTvShows());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+
+        public async Task LoadTvShows()
+        {
+            await Task.Run(async () =>
+            {
+                var client = new HttpClient();
+                var stringContent = new StringContent("");
+
+
+                await client.PostAsync("https://localhost:5001/v1/tvshows/load", stringContent);
             });
         }
     }

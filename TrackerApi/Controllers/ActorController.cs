@@ -47,6 +47,10 @@ namespace TrackerApi.Controllers
 
                 return Ok();
             }
+            catch (AlreadyExistsException e)
+            {
+                return BadRequest(e.Message);
+            }
             catch (NotFoundException e)
             {
                 return NotFound(e.Message);

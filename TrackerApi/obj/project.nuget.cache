@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "vQ4NvXF8KcRmIy6chz4tEgpxfXyuzTdhFlv9EukVeR6aPB+clErV5Yj9U/0XLMnAzxgi25cP0Ho7zH8rX3bpTg==",
+  "dgSpecHash": "MEeenS5WkFw8dIpX/krEDpk36y2g9A52fL+a9qn8Q4zNKc9CAQr4Uf4rX/74qdzOcm/0MO16BG2+d5u0pSUuGg==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsantos\\OneDrive - VIA Consulting\\Desktop\\demo\\TrackerApi\\TrackerApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.aspnetcore\\1.7.31\\hangfire.aspnetcore.1.7.31.nupkg.sha512",
+    "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.core\\1.7.31\\hangfire.core.1.7.31.nupkg.sha512",
+    "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.memorystorage\\1.7.0\\hangfire.memorystorage.1.7.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

@@ -78,7 +78,6 @@ namespace TrackerApi.Controllers
 
         [HttpPost]
         [Route("load")]
-        [Authorize]
 
         public async Task<IActionResult> PostLoadAsync()
         {
