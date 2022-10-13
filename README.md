@@ -101,6 +101,11 @@ Run the command
 dotnet-ef database update
 ```
 
+Run the command
+```
+nuget restore
+```
+
 Open cmd inside the TrackerApi Folder
 
 Run the command 
