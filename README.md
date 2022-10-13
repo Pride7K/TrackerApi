@@ -91,6 +91,7 @@ We have some classes for custom erros that we use to throw inside the business c
 
 - [ ] Unit of work
 - [ ] Repository Pattern
+- [ ] Better tests
 
 ### How to Set up?
 
