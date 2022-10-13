@@ -87,6 +87,11 @@ We can se in the image above that the class implements the interface and also ha
 
 We have some classes for custom erros that we use to throw inside the business class to the controller layers.
 
+### What could be done to improve?
+
+- [ ] Unit of work
+- [ ] Repository Pattern
+
 ### How to Set up?
 
 Clone the project where you want to save it
