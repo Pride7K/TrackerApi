@@ -10,23 +10,22 @@ using TrackerApi.Data;
 using TrackerApi.Models;
 using TrackerApi.Services.ActorService.ViewModel;
 using TrackerApi.Services.Erros;
+using TrackerApi.Services.SharedServices;
 using TrackerApi.Services.TvShowService.ViewModel;
 using TrackerApi.Services.UserService;
+using TrackerApi.Transaction;
 
 namespace TrackerApi.Services.TvShowService
 {
-    public class TvShowService : ITvShowService
+    public class TvShowService : DbContextService,ITvShowService
     {
         const string GENRE_KEY = "genre";
         const string AVAILABLE_KEY = "available";
         const string STILL_GOING_KEY = "still_going";
 
-        private readonly AppDbContext _context;
-        private readonly IUserService _userService;
-        public TvShowService(AppDbContext context, IUserService userService)
+        public TvShowService(AppDbContext context,IUnitOfWork uow) : base(context, uow)
         {
-            _context = context;
-            _userService = userService;
+
         }
 
         public async Task<TvShow> Create(CreateTvShowViewModel model)
@@ -47,7 +46,7 @@ namespace TrackerApi.Services.TvShowService
 
             await _context.TvShows.AddAsync(tvshow);
 
-            await _context.SaveChangesAsync();
+            await _uow.Commit();
 
             return tvshow;
         }
@@ -61,7 +60,7 @@ namespace TrackerApi.Services.TvShowService
 
             _context.TvShows.Remove(tvshow);
 
-            await _context.SaveChangesAsync();
+            await _uow.Commit();
         }
 
         public IEnumerable<TvShow> SeparateSort<T>(IQueryable<TvShow> tvShows, Func<TvShow, T> keySelector, GetTvShowFiltersViewModel filter)
@@ -162,8 +161,17 @@ namespace TrackerApi.Services.TvShowService
 
                 foreach(var tvshow in data.tv_shows)
                 {
-                    var model = new CreateTvShowViewModel() { Title = tvshow.name, Description = tvshow.name, StillGoing = tvshow.status.ToLower().Contains("running") };
-                    await Create(model);
+                    try
+                    {
+                        var model = new CreateTvShowViewModel() { Title = tvshow.name, Description = tvshow.name, StillGoing = tvshow.status.ToLower().Contains("running") };
+                        await Create(model);
+                    }
+                    catch(AlreadyExistsException e)
+                    { continue; }
+                    catch(Exception e)
+                    {
+                        throw e;
+                    }
                 }
 
             }
@@ -213,7 +221,7 @@ namespace TrackerApi.Services.TvShowService
 
             _context.TvShows.Update(tvshow);
 
-            await _context.SaveChangesAsync();
+            await _uow.Commit();
 
             return tvshow;
         }

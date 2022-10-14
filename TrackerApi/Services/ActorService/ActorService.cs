@@ -6,19 +6,19 @@ using TrackerApi.Data;
 using TrackerApi.Models;
 using TrackerApi.Services.ActorService.ViewModel;
 using TrackerApi.Services.Erros;
+using TrackerApi.Services.SharedServices;
 using TrackerApi.Services.TvShowService;
 using TrackerApi.Services.TvShowService.ViewModel;
+using TrackerApi.Transaction;
 
 namespace TrackerApi.Services.ActorService
 {
-    public class ActorService : IActorService
+    public class ActorService : DbContextService, IActorService
     {
-        private readonly AppDbContext _context;
-
         private readonly ITvShowService _tvshowService;
-        public ActorService(AppDbContext context, ITvShowService tvshowService)
+
+        public ActorService(AppDbContext context, ITvShowService tvshowService, IUnitOfWork uow) : base(context, uow)
         {
-            _context = context;
             _tvshowService = tvshowService;
         }
 
@@ -45,12 +45,10 @@ namespace TrackerApi.Services.ActorService
                 Description = model.Description
             };
 
-           
-
 
             await _context.Actors.AddAsync(actor);
 
-            await _context.SaveChangesAsync();
+            await _uow.Commit();
 
             return actor;
         }
@@ -106,7 +104,7 @@ namespace TrackerApi.Services.ActorService
 
             actorDb.ActorTvShow.Add(actorTvShow);
 
-            await _context.SaveChangesAsync();
+            await _uow.Commit();
 
         }
     }

@@ -26,28 +26,28 @@ namespace TrackerApi.Data
             modelBuilder.Entity<UserTvShowFavorite>().HasKey(x => new { x.UserId, x.TvShowsId });
 
             modelBuilder.Entity<ActorTvShow>()
-    .HasOne<Actor>(sc => sc.Actor)
-    .WithMany(s => s.ActorTvShow)
-    .HasForeignKey(sc => sc.ActorsId);
+            .HasOne<Actor>(sc => sc.Actor)
+            .WithMany(s => s.ActorTvShow)
+            .HasForeignKey(sc => sc.ActorsId);
 
             modelBuilder.Entity<ActorTvShow>().HasOne(pt => pt.TvShow)
-.WithMany(p => p.ActorTvShow)
-.HasForeignKey(pt => pt.TvShowsId);
+            .WithMany(p => p.ActorTvShow)
+            .HasForeignKey(pt => pt.TvShowsId);
 
             modelBuilder.Entity<UserTvShowFavorite>()
-.HasOne<User>(sc => sc.User)
-.WithMany(s => s.UserTvShowFavorite)
-.HasForeignKey(sc => sc.UserId);
+            .HasOne<User>(sc => sc.User)
+            .WithMany(s => s.UserTvShowFavorite)
+            .HasForeignKey(sc => sc.UserId);
 
             modelBuilder.Entity<UserTvShowFavorite>().HasOne(pt => pt.TvShow)
-.WithMany(p => p.UserTvShowFavorite)
-.HasForeignKey(pt => pt.TvShowsId);
+            .WithMany(p => p.UserTvShowFavorite)
+            .HasForeignKey(pt => pt.TvShowsId);
 
             modelBuilder.Entity<TvShow>()
                 .HasMany(c => c.Episodes)
                 .WithOne(e => e.TvShow).IsRequired();
 
-            
+
         }
     }
 }

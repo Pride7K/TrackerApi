@@ -4,16 +4,17 @@ using TrackerApi.Data;
 using TrackerApi.Models;
 using TrackerApi.Services.EpisodeService.ViewModel;
 using TrackerApi.Services.Erros;
+using TrackerApi.Services.SharedServices;
+using TrackerApi.Transaction;
 
 namespace TrackerApi.Services.EpisodeService
 {
-    public class EpisodeService : IEpisodeService
+    public class EpisodeService : DbContextService,IEpisodeService
     {
-        private readonly AppDbContext _context;
-        public EpisodeService(AppDbContext context)
+        public EpisodeService(AppDbContext context, IUnitOfWork uow) : base(context, uow)
         {
-            _context = context;
         }
+
         public async Task<TvShow> Create(CreateEpisodeViewModel model)
         {
 
@@ -30,7 +31,7 @@ namespace TrackerApi.Services.EpisodeService
             };
 
              await _context.Episodes.AddAsync(episode);
-             await _context.SaveChangesAsync();
+            await _uow.Commit();
 
             return tvshow;
 

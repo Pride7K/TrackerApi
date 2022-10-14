@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
 using TrackerApi.Services.Erros;
+using TrackerApi.Services.SharedServices;
 using TrackerApi.Services.TvShowService;
 using TrackerApi.Services.UserService.ViewModel;
+using TrackerApi.Transaction;
 
 namespace TrackerApi.Services.UserService
 {
-    public class UserService : IUserService
+    public class UserService : DbContextService,IUserService
     {
-        private readonly AppDbContext _context;
         private readonly ITvShowService _tvshowService;
-        public UserService(AppDbContext context, ITvShowService tvshowService)
+        public UserService(AppDbContext context, ITvShowService tvshowService, IUnitOfWork uow) : base(context,uow)
         {
-            _context = context;
             _tvshowService = tvshowService;
         }
 
@@ -39,7 +39,7 @@ namespace TrackerApi.Services.UserService
 
              await _context.Users.AddAsync(user);
 
-             await _context.SaveChangesAsync();
+            await _uow.Commit();
 
             return user;
         }
@@ -76,7 +76,7 @@ namespace TrackerApi.Services.UserService
                 _context.UserTvShowFavorite.Remove(favoriteShow);
             }
 
-            await _context.SaveChangesAsync();
+             await _uow.Commit();
         }
 
         public async Task<GetUsersViewModel> GetAll(int skip, int take)

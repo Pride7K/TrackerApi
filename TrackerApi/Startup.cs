@@ -19,8 +19,10 @@ using TrackerApi.Data;
 using TrackerApi.Services.ActorService;
 using TrackerApi.Services.EpisodeService;
 using TrackerApi.Services.LoginService;
+using TrackerApi.Services.SharedServices;
 using TrackerApi.Services.TvShowService;
 using TrackerApi.Services.UserService;
+using TrackerApi.Transaction;
 
 namespace TrackerApi
 {
@@ -36,6 +38,8 @@ namespace TrackerApi
             services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IActorService, ActorService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<DbContextService, DbContextService>();
 
             services.AddControllers();
 
