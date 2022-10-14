@@ -93,6 +93,7 @@ We have some classes for custom erros that we use to throw inside the business c
 - [ ] Repository Pattern
 - [ ] Better tests
 - [ ] Better use of the SOLID principle
+- [ ] Clean Archiecture
 
 ### How to Set up?
 
