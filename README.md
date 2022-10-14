@@ -89,8 +89,8 @@ We have some classes for custom erros that we use to throw inside the business c
 
 ### What could be done to improve?
 
-- [ ] Unit of work
-- [ ] Repository Pattern
+- [X] Unit of work
+- [x] Repository Pattern
 - [ ] Better tests
 - [ ] Better use of the SOLID principle
 - [ ] Clean Archiecture
