@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TrackerApi.Models
 {
-    public class Episode
+    public sealed class Episode
     {
         [Key]
         public int Id { get; set; }
@@ -11,6 +11,6 @@ namespace TrackerApi.Models
         public string Description { get; set; }
 
         public int TvShowId { get; set; }
-        public virtual TvShow TvShow { get; set; }
+        public  TvShow TvShow { get; set; }
     }
 }

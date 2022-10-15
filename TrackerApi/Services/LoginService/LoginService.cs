@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Services.Erros;
+using TrackerApi.Services.JwtService;
 using TrackerApi.Services.Login.ViewModel;
 
 namespace TrackerApi.Services.LoginService

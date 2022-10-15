@@ -2,7 +2,7 @@
 
 namespace TrackerApi.Models
 {
-    public class User
+    public sealed class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,7 +10,7 @@ namespace TrackerApi.Models
         public string Password { get; set; }
         public bool Active = true;
 
-        public virtual List<UserTvShowFavorite> UserTvShowFavorite { get; set; }
+        public  List<UserTvShowFavorite> UserTvShowFavorite { get; set; }
 
     }
 }

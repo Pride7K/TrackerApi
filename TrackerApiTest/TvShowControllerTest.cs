@@ -26,6 +26,8 @@ namespace TrackerApiTest
         [Theory]
         [InlineData("/v1/tvshows/skip/0/take/25")]
         [InlineData("/v1/tvshows/recomendations/skip/0/take/25")]
+        [Trait("TypeOfRequest", "Get")]
+
         public async Task Get_ShouldReturnOkWhenNotAuthenticate(string route)
         {
 
@@ -37,6 +39,8 @@ namespace TrackerApiTest
         [Theory]
         [InlineData("/v1/tvshows/skip/0/take/25")]
         [InlineData("/v1/tvshows/recomendations/skip/0/take/25")]
+        [Trait("TypeOfRequest", "Get")]
+
         public async Task Get_ShouldReturnOkWhenAuthenticate(string route)
         {
             await AuthenticateAsync();
@@ -47,6 +51,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Get")]
+
         public async Task Get_SpecificTvShow_ShouldReturnOk()
         {
             await AuthenticateAsync();
@@ -61,6 +67,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Post")]
+
         public async Task Post_SpecificTvShow_ShouldFailWhenNotAuthenticated()
         {
 
@@ -70,6 +78,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Post")]
+
         public async Task Post_SpecificTvShow_ShouldReturnCreatedWhenAuthenticated()
         {
             await AuthenticateAsync();
@@ -80,6 +90,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Post")]
+
         public async Task Post_LoadTvShows_ShouldReturnOk()
         {
             var response = await _client.PostAsync($"/v1/tvshows/load", null);
@@ -88,6 +100,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Put")]
+
         public async Task Put_SpecificTvShow_ShouldReturnOkWhenAuthenticated()
         {
             await AuthenticateAsync();
@@ -103,6 +117,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Put")]
+
         public async Task Put_SpecificTvShow_ShouldReturnUnathorizedWhenNotAuthenticated()
         {
             var response = await _client.PutAsJsonAsync($"/v1/tvshows/1", FakeTvShowDataViewModel._fakerPutTvShow.Generate());
@@ -112,6 +128,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Delete")]
+
         public async Task Delete_SpecificTvShow_ShouldReturnUnathorizedWhenNotAuthenticated()
         {
             var response = await _client.DeleteAsync($"/v1/tvshows/1");
@@ -121,6 +139,8 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Delete")]
+
         public async Task Delete_SpecificTvShow_ShouldReturnOkWhenAuthenticated()
         {
             await AuthenticateAsync();

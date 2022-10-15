@@ -1,10 +1,10 @@
 ﻿namespace TrackerApi.Models
 {
-    public class UserTvShowFavorite
+    public sealed class UserTvShowFavorite
     {
         public int UserId { get; set; }
         public int TvShowsId { get; set; }
-        public virtual TvShow TvShow { get; set; }
-        public virtual User User { get; set; }
+        public  TvShow TvShow { get; set; }
+        public  User User { get; set; }
     }
 }

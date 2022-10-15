@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using TrackerApi.Models;
 
-namespace TrackerApi.Services
+namespace TrackerApi.Services.JwtService
 {
     public static class TokenService
     {
@@ -17,13 +17,13 @@ namespace TrackerApi.Services
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
+                Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.Name.ToString()),
                     new Claim(ClaimTypes.Email, user.Email.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(3),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
 
 

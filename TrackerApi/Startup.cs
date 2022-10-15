@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 using TrackerApi.Data;
 using TrackerApi.Services.ActorService;
 using TrackerApi.Services.EpisodeService;
+using TrackerApi.Services.JwtService;
 using TrackerApi.Services.LoginService;
 using TrackerApi.Services.SharedServices;
 using TrackerApi.Services.TvShowService;

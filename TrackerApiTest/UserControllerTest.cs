@@ -17,6 +17,7 @@ namespace TrackerApiTest
     {
 
         [Fact]
+        [Trait("TypeOfRequest", "Get")]
         public async Task Get_AllUsers_ShouldReturnListUsersResponse()
         {
 
@@ -36,6 +37,7 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Get")]
         public async Task Get_ReturnsUsers_WhenUsersExistsInDataBase()
         {
             await AuthenticateAsync();
@@ -52,6 +54,7 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Get")]
         public async Task Get_SpecificUser_WhenUsersExistsInDataBase()
         {
             await AuthenticateAsync();
@@ -68,6 +71,7 @@ namespace TrackerApiTest
         }
 
         [Fact]
+        [Trait("TypeOfRequest", "Post")]
         public async Task Post_User_ShouldFailValidation()
         {
             await AuthenticateAsync();
@@ -88,6 +92,7 @@ namespace TrackerApiTest
         [Theory]
         [InlineData("/v1/users/skip/0/take/25")]
         [InlineData("/v1/users/2")]
+        [Trait("TypeOfRequest", "Get")]
         public async Task Get_SpecificRoutes_ShouldFailWhenNotAuthorized(string route)
         {
             var response =  await _client.GetAsync(route);
@@ -96,8 +101,8 @@ namespace TrackerApiTest
 
         }
 
-
         [Fact]
+        [Trait("TypeOfRequest", "Post")]
         public async Task Post_User_ShouldNotCreateIfUserExists()
         {
             await AuthenticateAsync();
