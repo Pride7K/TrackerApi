@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Polly;
+using Polly.Contrib.WaitAndRetry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +20,17 @@ using TrackerApi.Transaction;
 
 namespace TrackerApi.Services.TvShowService
 {
-    public class TvShowService : DbContextService,ITvShowService
+    public class TvShowService : DbContextService, ITvShowService
     {
         const string GENRE_KEY = "genre";
         const string AVAILABLE_KEY = "available";
         const string STILL_GOING_KEY = "still_going";
 
-        public TvShowService(AppDbContext context,IUnitOfWork uow) : base(context, uow)
-        {
+        public IHttpClientFactory _clientFactory { get; set; }
 
+        public TvShowService(AppDbContext context, IUnitOfWork uow, IHttpClientFactory clientFactory) : base(context, uow)
+        {
+            _clientFactory = clientFactory;
         }
 
         public async Task<TvShow> Create(CreateTvShowViewModel model)
@@ -79,7 +84,7 @@ namespace TrackerApi.Services.TvShowService
             return data;
         }
 
-        public List<T>  GetHalfOfTheList<T>(List<T> list)
+        public List<T> GetHalfOfTheList<T>(List<T> list)
         {
             return list.Select((x, i) => new { x, i }).Where(t => t.i % 2 == 0).Select(t => t.x).ToList();
         }
@@ -89,15 +94,15 @@ namespace TrackerApi.Services.TvShowService
             var totalTvShows = await _context.TvShows.CountAsync();
 
 
-            var tvshows =  _context.TvShows
+            var tvshows = _context.TvShows
                 .Include(x => x.Episodes)
                 .AsNoTracking()
                 .Skip(skip)
                 .Take(take).AsQueryable();
 
-            if(filter != null)
+            if (filter != null)
             {
-                if(filter.Available.HasValue)
+                if (filter.Available.HasValue)
                 {
                     tvshows = tvshows.Where(x => x.Available == filter.Available.Value);
                 }
@@ -110,7 +115,7 @@ namespace TrackerApi.Services.TvShowService
                     tvshows = tvshows.Where(x => (int)x.Genre == filter.Genre);
                 }
 
-                if(!string.IsNullOrEmpty(filter.Sort))
+                if (!string.IsNullOrEmpty(filter.Sort))
                 {
                     var optionChoosedToSort = filter.TypesSorting.FirstOrDefault(x => x.ToLower() == filter.SortingBy?.ToLower());
 
@@ -128,7 +133,7 @@ namespace TrackerApi.Services.TvShowService
             return new GetTvShowViewModel()
             {
                 TotalTvShows = totalTvShows,
-                TvShows =  tvshows.ToList()
+                TvShows = tvshows.ToList()
             };
         }
 
@@ -149,26 +154,26 @@ namespace TrackerApi.Services.TvShowService
 
         public async Task Load()
         {
-            HttpClient client = new HttpClient();
+            HttpClient client = _clientFactory.CreateClient("Episodate");
 
             var result = await client.GetAsync("https://www.episodate.com/api/most-popular?page=1");
 
             if (result.IsSuccessStatusCode)
             {
-                 var data =  JsonConvert.DeserializeObject <TvShowsGetObjectCallViewModel>(await result.Content.ReadAsStringAsync());
+                var data = JsonConvert.DeserializeObject<TvShowsGetObjectCallViewModel>(await result.Content.ReadAsStringAsync());
 
                 Console.WriteLine(data.tv_shows);
 
-                foreach(var tvshow in data.tv_shows)
+                foreach (var tvshow in data.tv_shows)
                 {
                     try
                     {
                         var model = new CreateTvShowViewModel() { Title = tvshow.name, Description = tvshow.name, StillGoing = tvshow.status.ToLower().Contains("running") };
                         await Create(model);
                     }
-                    catch(AlreadyExistsException e)
+                    catch (AlreadyExistsException e)
                     { continue; }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         throw e;
                     }
@@ -188,7 +193,7 @@ namespace TrackerApi.Services.TvShowService
                 .ThenInclude(x => x.Actor)
                 .AsNoTracking().ToListAsync();
 
-            if(tvshows.Count == 0)
+            if (tvshows.Count == 0)
                 throw new NotFoundException("Not found");
 
             return new GetActorViewModel()

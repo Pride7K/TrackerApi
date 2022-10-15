@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
+using Polly.Contrib.WaitAndRetry;
+using Polly;
 using TrackerApi.Data;
 using TrackerApi.Services.ActorService;
 using TrackerApi.Services.EpisodeService;
@@ -31,6 +33,7 @@ namespace TrackerApi
     {
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddCors();
             services.AddDbContext<AppDbContext>();
             services.AddScoped<AppDbContext, AppDbContext>();
@@ -68,6 +71,14 @@ namespace TrackerApi
             });
 
             services.AddHangfire(configuration => configuration.UseMemoryStorage());
+
+            services.AddHttpClient("Episodate", client =>
+            {
+                client.BaseAddress = new Uri("https://www.episodate.com/api/");
+            }).AddPolicyHandler(Policy<HttpResponseMessage>
+            .Handle<HttpRequestException>()
+            .OrResult(x => x.StatusCode >= System.Net.HttpStatusCode.InternalServerError || x.StatusCode == System.Net.HttpStatusCode.RequestTimeout)
+            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), 5)));
 
             services.AddHangfireServer();
         }
