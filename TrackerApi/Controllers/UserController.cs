@@ -52,19 +52,6 @@ namespace TrackerApi.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{email}")]
-        [Authorize]
-
-        public async Task<IActionResult> GetByEmailAsync([FromRoute] string email)
-        {
-            var user = await _service.GetByEmail(email);
-
-            if (user == null)
-                return NotFound(new { ErrorMessage = "Not found", model = user });
-
-
-            return Ok(user);
-        }
 
         [HttpPost]
         [Route("tvshow/favorite")]
@@ -106,7 +93,7 @@ namespace TrackerApi.Controllers
             }
             catch (AlreadyExistsException e)
             {
-                return Problem(e.Message);
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {

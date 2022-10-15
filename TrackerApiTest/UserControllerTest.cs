@@ -17,7 +17,7 @@ namespace TrackerApiTest
     {
 
         [Fact]
-        public async Task GetAll_ReturnsListUsersResponse()
+        public async Task Get_AllUsers_ShouldReturnListUsersResponse()
         {
 
             await AuthenticateAsync();
@@ -82,6 +82,38 @@ namespace TrackerApiTest
             var response = await _client.PostAsJsonAsync("/v1/users", model);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        }
+
+        [Theory]
+        [InlineData("/v1/users/skip/0/take/25")]
+        [InlineData("/v1/users/2")]
+        public async Task Get_SpecificRoutes_ShouldFailWhenNotAuthorized(string route)
+        {
+            var response =  await _client.GetAsync(route);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+        }
+
+
+        [Fact]
+        public async Task Post_User_ShouldNotCreateIfUserExists()
+        {
+            await AuthenticateAsync();
+
+            var model = FakeUserDataViewModel._fakerCreateUser.Generate();
+
+            var responseFirstCreation = await _client.PostAsJsonAsync("/v1/users", model);
+
+            var responseSecondCreation = _client.PostAsJsonAsync("/v1/users", model);
+
+
+            var responseSecondCreationMessage = await responseSecondCreation.Result.Content.ReadAsStringAsync();
+
+            responseFirstCreation.StatusCode.Should().Be(HttpStatusCode.Created);
+            responseSecondCreation.Result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseSecondCreationMessage.Should().Contain("User already Exists!");
 
         }
     }
