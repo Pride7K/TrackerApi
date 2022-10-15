@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Bogus;
+using FluentAssertions;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
@@ -6,6 +8,7 @@ using System.Threading.Tasks;
 using TrackerApi.Models;
 using TrackerApi.Services.TvShowService.ViewModel;
 using TrackerApi.Services.UserService.ViewModel;
+using TrackerApiTest.FakeData;
 using Xunit;
 
 namespace TrackerApiTest
@@ -36,16 +39,14 @@ namespace TrackerApiTest
         public async Task Get_ReturnsUsers_WhenUsersExistsInDataBase()
         {
             await AuthenticateAsync();
-            await CreateUserAsync(new CreateUserViewModel
-            {
-                Email = "sdsdsdsdds@gmail.com",
-                Password = "asasasa",
-                Name = "ashasjas"
-            });
+            var user = await CreateUserAsync(FakeUserDataViewModel._fakerCreateUser.Generate());
 
             var response = await _client.GetAsync("/v1/users/skip/0/take/25");
+            var users = (await response.Content.ReadFromJsonAsync<GetUsersViewModel>()).Users;
+
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            (await response.Content.ReadFromJsonAsync<GetUsersViewModel>()).Users.Should().NotBeEmpty().And.HaveCount(1);
+            users.Should().NotBeEmpty().And.HaveCountGreaterThan(0);
+            users.FirstOrDefault(t => t.Id == user.Id).Should().NotBeNull();
 
 
         }
@@ -54,12 +55,7 @@ namespace TrackerApiTest
         public async Task Get_SpecificUser_WhenUsersExistsInDataBase()
         {
             await AuthenticateAsync();
-            var user = await CreateUserAsync(new CreateUserViewModel
-            {
-                Email = "sdsdsdsdds@gmail.com",
-                Password = "asasasa",
-                Name = "ashasjas"
-            });
+            var user = await CreateUserAsync(FakeUserDataViewModel._fakerCreateUser.Generate());
 
             var response = await _client.GetAsync($"/v1/users/{user.Id}");
             var responseUser = await response.Content.ReadFromJsonAsync<User>();

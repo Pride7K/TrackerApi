@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "62VZKp5q80lxQ+j6svII4EEifafTkuhx2aqi+1XZzK2JUXlkY+IWYho2TIjr9RLWVF1QTe00xzA3ed4Ef8GcnQ==",
+  "dgSpecHash": "Z2hmq1oqS68gul7WHyyRJD2sORpJwePQe7j6yDkROAoHM9vW0vlaHDVnUPqKt2VeBDBl//VnfQ+bdbO34plXKg==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsantos\\OneDrive - VIA Consulting\\Desktop\\demo\\TrackerApiTest\\TrackerApiTest.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gsantos\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\fluentassertions\\5.10.3\\fluentassertions.5.10.3.nupkg.sha512",

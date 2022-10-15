@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace TrackerApiTest
                                     d => d.ServiceType ==
                                         typeof(DbContextOptions<AppDbContext>));
 
-                    services.Remove(descriptor);
+                    services.RemoveAll(descriptor.ServiceType);
 
                     services.AddDbContext<AppDbContext>(options =>
                     {
@@ -50,22 +51,43 @@ namespace TrackerApiTest
 
         protected async Task AuthenticateAsync()
         {
-           if(_client.DefaultRequestHeaders.Authorization == null)
-            {
-                _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", await GetJwtToken());
-            }
+
+            _client.DefaultRequestHeaders.Authorization = await GetJwtToken();
         }
 
-        private async Task<string> GetJwtToken()
+        private async Task<User> GetAdminUser()
         {
-            var responseUser = await _client.PostAsJsonAsync("/v1/users", new CreateUserViewModel
+            User user = null;
+
+            var adminUser = new CreateUserViewModel
             {
                 Name = "teste",
                 Email = "teste@gmail.com",
                 Password = "teste",
-            });
+            };
 
-            var user = await responseUser.Content.ReadFromJsonAsync<User>();
+            var responseUser = await _client.PostAsJsonAsync("/v1/users", adminUser);
+
+            if (responseUser.IsSuccessStatusCode)
+                user = await responseUser.Content.ReadFromJsonAsync<User>();
+            else
+            {
+                user = new User
+                {
+                    Email = adminUser.Email,
+                    Name = adminUser.Name,
+                    Password = adminUser.Password
+                };
+            }
+
+
+            return user;
+        }
+
+        private async Task<AuthenticationHeaderValue> GetJwtToken()
+        {
+
+            var user = await GetAdminUser();
 
             var responseAuthUser = await _client.PostAsJsonAsync("/v1/login/user", new AuthenticateUserViewModel
             {
@@ -75,8 +97,7 @@ namespace TrackerApiTest
 
             var responseConverted = await responseAuthUser.Content.ReadFromJsonAsync<TokenResponse>();
 
-
-            return responseConverted.token;
+            return new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", responseConverted.token);
         }
 
         public struct TokenResponse

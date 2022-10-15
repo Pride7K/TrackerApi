@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace TrackerApi.Services.UserService.ViewModel
 {
-    public struct CreateUserViewModel
+    public class CreateUserViewModel
     {
         [Required(ErrorMessage = "This field is required", AllowEmptyStrings = false)]
         [StringLength(255, MinimumLength = 1, ErrorMessage = "Name must have at least one character")]

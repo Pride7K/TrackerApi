@@ -449,3 +449,4 @@ C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Microsoft.AspNetCore.TestHost.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\System.IO.Pipelines.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Bogus.dll
