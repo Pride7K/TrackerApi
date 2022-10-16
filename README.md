@@ -92,6 +92,7 @@ We have some classes for custom erros that we use to throw inside the business c
 - [X] Unit of work
 - [x] Repository Pattern
 - [x] Better tests
+- [ ] Change DI AddScope dependencies to AddTransient
 - [ ] Better use of the SOLID principle
 - [ ] Clean Archiecture
 
