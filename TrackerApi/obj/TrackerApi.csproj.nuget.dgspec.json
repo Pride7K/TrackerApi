@@ -68,7 +68,7 @@
             },
             "Microsoft.Extensions.Http.Polly": {
               "target": "Package",
-              "version": "[6.0.10, )"
+              "version": "[5.0.1, )"
             },
             "Microsoft.aspnetcore.authentication": {
               "target": "Package",
@@ -89,6 +89,14 @@
             "Polly.Extensions.Http": {
               "target": "Package",
               "version": "[3.0.0, )"
+            },
+            "Scrutor": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "Scrutor.AspNetCore": {
+              "target": "Package",
+              "version": "[3.3.0, )"
             }
           },
           "imports": [

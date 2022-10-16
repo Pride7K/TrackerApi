@@ -152,17 +152,16 @@ namespace TrackerApi.Services.TvShowService
             return _context.TvShows.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == tvShowId);
         }
 
-        public async Task Load()
+        public async Task Load(int page = 1)
         {
             HttpClient client = _clientFactory.CreateClient("Episodate");
 
-            var result = await client.GetAsync("https://www.episodate.com/api/most-popular?page=1");
+            var result = await client.GetAsync($"most-popular?page={page}");
 
             if (result.IsSuccessStatusCode)
             {
                 var data = JsonConvert.DeserializeObject<TvShowsGetObjectCallViewModel>(await result.Content.ReadAsStringAsync());
 
-                Console.WriteLine(data.tv_shows);
 
                 foreach (var tvshow in data.tv_shows)
                 {
