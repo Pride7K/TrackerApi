@@ -1,6 +1,6 @@
 ﻿namespace TrackerApi.Services.ActorService.ViewModel
 {
-    public class GetActorFiltersViewModel
+    public sealed class GetActorFiltersViewModel
     {
         public string Name { get; set; }
     }

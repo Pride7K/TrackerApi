@@ -2,7 +2,7 @@
 
 namespace TrackerApi.Services.TvShowService.ViewModel
 {
-    public class CreateTvShowViewModel
+    public sealed class CreateTvShowViewModel
     {
         public string Title { get; set; }
         public string Description { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TrackerApi.Services.TvShowService.ViewModel
 {
-    public class GetTvShowFiltersViewModel
+    public sealed class GetTvShowFiltersViewModel
     {
 
         [FromQuery(Name = "genre")]
