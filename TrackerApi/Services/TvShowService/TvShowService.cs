@@ -45,7 +45,7 @@ namespace TrackerApi.Services.TvShowService
                 Title = model.Title,
                 Description = model.Description,
                 Available = true,
-                StillGoing = model.StillGoing
+                StillGoing = model.StillGoing.Value
             };
 
 

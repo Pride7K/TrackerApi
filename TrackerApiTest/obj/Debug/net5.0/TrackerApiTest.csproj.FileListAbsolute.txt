@@ -299,6 +299,9 @@ C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Bogus.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Castle.Core.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\FluentAssertions.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\FluentValidation.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Hangfire.AspNetCore.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Hangfire.Core.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Hangfire.MemoryStorage.dll
@@ -336,6 +339,8 @@ C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Polly.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Polly.Contrib.WaitAndRetry.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Polly.Extensions.Http.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Scrutor.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Scrutor.AspNetCore.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\SQLitePCLRaw.batteries_v2.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\SQLitePCLRaw.nativelibrary.dll
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\SQLitePCLRaw.core.dll
@@ -454,5 +459,3 @@ C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\obj\Debug
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\obj\Debug\net5.0\TrackerApiTest.pdb
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\obj\Debug\net5.0\TrackerApiTest.genruntimeconfig.cache
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\obj\Debug\net5.0\ref\TrackerApiTest.dll
-C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Scrutor.dll
-C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApiTest\bin\Debug\net5.0\Scrutor.AspNetCore.dll

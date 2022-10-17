@@ -26,6 +26,8 @@ using TrackerApi.Services.SharedServices;
 using TrackerApi.Services.TvShowService;
 using TrackerApi.Services.UserService;
 using TrackerApi.Transaction;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 namespace TrackerApi
 {
@@ -78,6 +80,8 @@ namespace TrackerApi
             .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), 5)));
 
             services.AddHangfireServer();
+
+            services.AddFluentValidation(config => config.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "yJXXCMY9rXDP9IhAf0NwPOeapsfcl6hw+OpClmA/ZbR/nzTIk6H2PbSyPh8+OFWhz6v4URErOwEL+xqT1S+Acg==",
+  "dgSpecHash": "C9F0/Z0nL5KgIYOVXEgnWXHoJxtLJDczDIFZ/rmKBc5naAebyBiW/ayO4qg0Hi8phxcg0JMfn8LPlzIGmOJ6rA==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsantos\\OneDrive - VIA Consulting\\Desktop\\demo\\TrackerApi\\TrackerApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gsantos\\.nuget\\packages\\fluentvalidation\\11.2.1\\fluentvalidation.11.2.1.nupkg.sha512",
+    "C:\\Users\\gsantos\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.2\\fluentvalidation.aspnetcore.11.2.2.nupkg.sha512",
+    "C:\\Users\\gsantos\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.2.1\\fluentvalidation.dependencyinjectionextensions.11.2.1.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.aspnetcore\\1.7.31\\hangfire.aspnetcore.1.7.31.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.core\\1.7.31\\hangfire.core.1.7.31.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\hangfire.memorystorage\\1.7.0\\hangfire.memorystorage.1.7.0.nupkg.sha512",
