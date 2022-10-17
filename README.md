@@ -19,6 +19,7 @@ Which techs are being used in the project?
 - JWT Authentication
 - Cache Store
 - Fluent Assertions
+- Polly Retry Policy
 
 ### How is it structured ?
 
