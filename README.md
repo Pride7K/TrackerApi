@@ -17,6 +17,8 @@ Which techs are being used in the project?
 - Sql Lite
 - XUnit
 - JWT Authentication
+- Cache Store
+- Fluent Assertions
 
 ### How is it structured ?
 
