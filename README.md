@@ -20,6 +20,7 @@ Which techs are being used in the project?
 - Cache Store
 - Fluent Assertions
 - Polly Retry Policy
+- Unit Of Work
 
 ### How is it structured ?
 
