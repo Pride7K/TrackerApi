@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "n+y5ktxKeEllhpSuhUF1X3iPaY6cWgMLKufTV8tgvVILIM3DYdLu7/uQQNJPqcpTHiZKEsUciA12CGTKoDIQFA==",
+  "dgSpecHash": "nXP/YMTor5zDEq4b94LpjMFaxnSncLivGQZHx8dYdNs8OZRS8CWP8B9bRFggEC0u75Kf3r6+o8lyjbDw9vvyrw==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsantos\\OneDrive - VIA Consulting\\Desktop\\demo\\TrackerApiTest\\TrackerApiTest.csproj",
   "expectedPackageFiles": [
@@ -202,5 +202,12 @@
     "C:\\Users\\gsantos\\.nuget\\packages\\xunit.extensibility.execution\\2.4.1\\xunit.extensibility.execution.2.4.1.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.3\\xunit.runner.visualstudio.2.4.3.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://repository.ageas.pt:8081/repository/nuget-group'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
+    }
+  ]
 }

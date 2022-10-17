@@ -28,6 +28,8 @@ using TrackerApi.Services.UserService;
 using TrackerApi.Transaction;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using TrackerApi.Polly;
+using Polly.Extensions.Http;
 
 namespace TrackerApi
 {
@@ -74,14 +76,26 @@ namespace TrackerApi
             services.AddHttpClient("Episodate", client =>
             {
                 client.BaseAddress = new Uri("https://www.episodate.com/api/");
-            }).AddPolicyHandler(Policy<HttpResponseMessage>
-            .Handle<HttpRequestException>()
-            .OrResult(x => x.StatusCode >= System.Net.HttpStatusCode.InternalServerError || x.StatusCode == System.Net.HttpStatusCode.RequestTimeout)
-            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), 5)));
+            }).AddPolicyHandler(PollyPolicies.GetRetryPolicy()).AddPolicyHandler(PollyPolicies.GetCircuitBreakerPolicy());
 
             services.AddHangfireServer();
 
             services.AddFluentValidation(config => config.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+        }
+
+        private void OnHalfOpen()
+        {
+            Console.WriteLine("Circuit in test mode, one request will be allowed.");
+        }
+
+        private void OnReset()
+        {
+            Console.WriteLine("Circuit closed, requests flow normally.");
+        }
+
+        private void OnBreak(DelegateResult<HttpResponseMessage> result, TimeSpan ts)
+        {
+            Console.WriteLine("Circuit cut, requests will not flow.");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

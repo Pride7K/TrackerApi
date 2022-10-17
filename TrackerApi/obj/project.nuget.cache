@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "C9F0/Z0nL5KgIYOVXEgnWXHoJxtLJDczDIFZ/rmKBc5naAebyBiW/ayO4qg0Hi8phxcg0JMfn8LPlzIGmOJ6rA==",
+  "dgSpecHash": "WPY6azwrzddwZgJ7ls8FzG8C7kCzlGRbmGpd6gVzWMzISvuVomIg8A7Ley4O3061FzYYmi8j87yGdI8I2oNWrA==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsantos\\OneDrive - VIA Consulting\\Desktop\\demo\\TrackerApi\\TrackerApi.csproj",
   "expectedPackageFiles": [
@@ -94,5 +94,12 @@
     "C:\\Users\\gsantos\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
     "C:\\Users\\gsantos\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.1\\system.threading.tasks.extensions.4.5.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://repository.ageas.pt:8081/repository/nuget-group'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
+    }
+  ]
 }

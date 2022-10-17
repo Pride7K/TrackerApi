@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://repository.ageas.pt:8081/repository/nuget-group": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
