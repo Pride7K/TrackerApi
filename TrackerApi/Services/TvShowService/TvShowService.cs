@@ -90,7 +90,8 @@ namespace TrackerApi.Services.TvShowService
             return list.Select((x, i) => new { x, i }).Where(t => t.i % 2 == 0).Select(t => t.x).ToList();
         }
 
-        public async Task<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter,CancellationToken token)
+        public async ValueTask<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter,
+            CancellationToken token)
         {
             var totalTvShows = await _context.TvShows.CountAsync(cancellationToken:token);
 

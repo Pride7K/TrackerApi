@@ -29,13 +29,13 @@ namespace TrackerApi.Services.TvShowService
             return _tvshowService.Delete(id);
         }
 
-        public async Task<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter,CancellationToken token)
+        public async ValueTask<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter,CancellationToken token)
         {
             var options = new MemoryCacheEntryOptions()
            .SetSlidingExpiration(TimeSpan.FromSeconds(10))
            .SetAbsoluteExpiration(TimeSpan.FromSeconds(30));
 
-            if (_memoryCache.TryGetValue(TvShowListKey, out Task<GetTvShowViewModel> result))
+            if (_memoryCache.TryGetValue(TvShowListKey, out ValueTask<GetTvShowViewModel> result))
                 return await result;
 
             result =  _tvshowService.GetAll(skip, take, filter,token);

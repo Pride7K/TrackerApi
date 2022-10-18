@@ -27,7 +27,7 @@ namespace TrackerApi.Controllers
 
         [HttpGet("skip/{skip:int}/take/{take:int}")]
 
-        public async Task<IActionResult> GetAsync(
+        public async ValueTask<IActionResult> GetAsync(
             CancellationToken token,
             [FromQuery] GetTvShowFiltersViewModel filter,
             [FromRoute] int skip = 0,
