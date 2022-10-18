@@ -16,7 +16,7 @@ export default function () {
     const BASE_URL = "https://localhost:5001/v1/";
 
     const responses = http.batch([
-        ['GET', `tvshows/skip/0/take/25`],
+        ['GET', `${API_BASE_URL}tvshows/skip/0/take/25`],
     ]);
 
     sleep(1);
