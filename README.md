@@ -8,7 +8,7 @@ RestFul API with .NET Core
 
 This project is just to test the knowledge with the .NET Core´s API and entity framework core concepts.
 
-Which techs are being used in the project?
+Which techs/patterns/frameworks are being used in the project?
 
 
 - C#
@@ -21,6 +21,8 @@ Which techs are being used in the project?
 - Fluent Assertions
 - Polly Retry Policy
 - Unit Of Work
+- Circuit Breaker
+- Decorator Pattern
 
 ### How is it structured ?
 
