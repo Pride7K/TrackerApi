@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
@@ -75,9 +76,9 @@ namespace TrackerApi.Services.TvShowService
                 : tvShows.OrderByDescending(keySelector);
         }
 
-        public async Task<GetTvShowViewModel> GetRecomendationsAll(int skip, int take, GetTvShowFiltersViewModel filter)
+        public async Task<GetTvShowViewModel> GetRecomendationsAll(int skip, int take, GetTvShowFiltersViewModel filter,CancellationToken token)
         {
-            var data = await GetAll(skip, take, filter);
+            var data = await GetAll(skip, take, filter,token);
 
             data.TvShows = GetHalfOfTheList(data.TvShows.OrderBy(x => Guid.NewGuid()).ToList());
 
@@ -89,9 +90,9 @@ namespace TrackerApi.Services.TvShowService
             return list.Select((x, i) => new { x, i }).Where(t => t.i % 2 == 0).Select(t => t.x).ToList();
         }
 
-        public async Task<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter)
+        public async Task<GetTvShowViewModel> GetAll(int skip, int take, GetTvShowFiltersViewModel filter,CancellationToken token)
         {
-            var totalTvShows = await _context.TvShows.CountAsync();
+            var totalTvShows = await _context.TvShows.CountAsync(cancellationToken:token);
 
 
             var tvshows = _context.TvShows
@@ -133,30 +134,40 @@ namespace TrackerApi.Services.TvShowService
             return new GetTvShowViewModel()
             {
                 TotalTvShows = totalTvShows,
-                TvShows = tvshows.ToList()
+                TvShows = await tvshows.ToListAsync(cancellationToken:token)
             };
         }
 
+        public Task<TvShow> GetById(int id,CancellationToken token)
+        {
+            return _context.TvShows.FirstOrDefaultAsync(x => x.Id == id,cancellationToken:token);
+        }
+        
         public Task<TvShow> GetById(int id)
         {
             return _context.TvShows.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public Task<TvShow> GetByTitle(string title,CancellationToken token)
+        {
+            return _context.TvShows.FirstOrDefaultAsync(x => x.Title == title,cancellationToken:token);
+        }
+        
         public Task<TvShow> GetByTitle(string title)
         {
             return _context.TvShows.FirstOrDefaultAsync(x => x.Title == title);
         }
 
-        public Task<TvShow> GetTvShowWithEpisode(int tvShowId)
+        public Task<TvShow> GetTvShowWithEpisode(int tvShowId,CancellationToken token)
         {
-            return _context.TvShows.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == tvShowId);
+            return _context.TvShows.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == tvShowId,cancellationToken:token);
         }
 
-        public async Task Load(int page = 1)
+        public async Task Load(CancellationToken token,int page = 1)
         {
             HttpClient client = _clientFactory.CreateClient("Episodate");
 
-            var result = await client.GetAsync($"most-popular?page={page}");
+            var result = await client.GetAsync($"most-popular?page={page}",cancellationToken:token);
 
             if (result.IsSuccessStatusCode)
             {
@@ -182,7 +193,7 @@ namespace TrackerApi.Services.TvShowService
 
         }
 
-        public async Task<GetActorViewModel> GetAllActors(int tvShowId)
+        public async Task<GetActorViewModel> GetAllActors(int tvShowId,CancellationToken token)
         {
 
 
@@ -190,7 +201,7 @@ namespace TrackerApi.Services.TvShowService
                 .Where(x => x.Id == tvShowId)
                 .Include(x => x.ActorTvShow)
                 .ThenInclude(x => x.Actor)
-                .AsNoTracking().ToListAsync();
+                .AsNoTracking().ToListAsync(cancellationToken:token);
 
             if (tvshows.Count == 0)
                 throw new NotFoundException("Not found");

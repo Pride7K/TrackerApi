@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
@@ -53,7 +54,7 @@ namespace TrackerApi.Services.ActorService
             return actor;
         }
 
-        public async Task<GetActorViewModel> GetAll(int skip, int take, GetActorFiltersViewModel filter)
+        public async Task<GetActorViewModel> GetAll(int skip, int take, GetActorFiltersViewModel filter,CancellationToken token)
         {
             var totalactors = await _context.Actors.CountAsync();
 
@@ -76,7 +77,7 @@ namespace TrackerApi.Services.ActorService
             return new GetActorViewModel()
             {
                 TotalActors = totalactors,
-                Actors = await actors.ToListAsync()
+                Actors = await actors.ToListAsync(cancellationToken:token)
             };
         }
 

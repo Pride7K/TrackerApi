@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
@@ -27,6 +28,7 @@ namespace TrackerApi.Controllers
         [HttpGet("skip/{skip:int}/take/{take:int}")]
 
         public async Task<IActionResult> GetAsync(
+            CancellationToken token,
             [FromQuery] GetTvShowFiltersViewModel filter,
             [FromRoute] int skip = 0,
             [FromRoute] int take = 25)
@@ -34,7 +36,7 @@ namespace TrackerApi.Controllers
             if (take > 1000)
                 return BadRequest();
 
-            var data = await _service.GetAll(skip, take, filter);
+            var data = await _service.GetAll(skip, take, filter,token);
 
             return Ok(data);
         }
@@ -42,6 +44,7 @@ namespace TrackerApi.Controllers
         [HttpGet("recomendations/skip/{skip:int}/take/{take:int}")]
 
         public async Task<IActionResult> GetRecomendationsAsync(
+            CancellationToken token,
     [FromQuery] GetTvShowFiltersViewModel filter,
     [FromRoute] int skip = 0,
     [FromRoute] int take = 25)
@@ -49,7 +52,7 @@ namespace TrackerApi.Controllers
             if (take > 1000)
                 return BadRequest();
 
-            var data = await _service.GetRecomendationsAll(skip, take, filter);
+            var data = await _service.GetRecomendationsAll(skip, take, filter,token);
 
             return Ok(data);
         }
@@ -59,9 +62,9 @@ namespace TrackerApi.Controllers
         [HttpGet]
         [Route("{id:int}")]
 
-        public async Task<IActionResult> GetByIdAsync([FromRoute]int id)
+        public async Task<IActionResult> GetByIdAsync(CancellationToken token,[FromRoute]int id)
         {
-            var tvshow = await _service.GetById(id);
+            var tvshow = await _service.GetById(id,token);
 
             return tvshow == null ? NotFound() : Ok(tvshow);
         }
@@ -95,9 +98,9 @@ namespace TrackerApi.Controllers
         [HttpPost]
         [Route("load")]
 
-        public async Task<IActionResult> PostLoadAsync()
+        public async Task<IActionResult> PostLoadAsync(CancellationToken token)
         {
-            await _service.Load();
+            await _service.Load(token);
 
             return Ok();
         }
@@ -131,9 +134,9 @@ namespace TrackerApi.Controllers
         [HttpGet]
         [Route("{id:int}/episodes")]
 
-        public async Task<IActionResult> GetAsync([FromRoute] int id)
+        public async Task<IActionResult> GetAsync(CancellationToken token,[FromRoute] int id)
         {
-            var tvshow = await _service.GetTvShowWithEpisode(id);
+            var tvshow = await _service.GetTvShowWithEpisode(id,token);
 
             return tvshow == null ? NotFound() : Ok(tvshow.Episodes);
         }
@@ -142,12 +145,12 @@ namespace TrackerApi.Controllers
         [HttpGet]
         [Route("{id:int}/actors")]
 
-        public async Task<IActionResult> GetActorsAsync([FromRoute] int id)
+        public async Task<IActionResult> GetActorsAsync(CancellationToken token,[FromRoute] int id)
         {
 
             try
             {
-                var actors = await _service.GetAllActors(id);
+                var actors = await _service.GetAllActors(id,token);
 
                 return Ok(actors);
             }

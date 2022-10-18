@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using TrackerApi.Services.ActorService;
 using TrackerApi.Services.ActorService.ViewModel;
@@ -22,7 +23,7 @@ namespace TrackerApi.Controllers
 
         [HttpGet("skip/{skip:int}/take/{take:int}")]
 
-        public async Task<IActionResult> GetAsync(
+        public async Task<IActionResult> GetAsync(CancellationToken token,
         [FromQuery] GetActorFiltersViewModel filter,
         [FromRoute] int skip = 0,
         [FromRoute] int take = 25)
@@ -30,7 +31,7 @@ namespace TrackerApi.Controllers
             if (take > 1000)
                 return BadRequest();
 
-            var data = await _service.GetAll(skip, take, filter);
+            var data = await _service.GetAll(skip, take, filter,token);
 
             return Ok(data);
         }

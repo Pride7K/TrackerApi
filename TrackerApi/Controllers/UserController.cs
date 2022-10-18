@@ -10,6 +10,7 @@ using TrackerApi.Services.Erros;
 using TrackerApi.Services.UserService;
 using TrackerApi.Services.UserService.ViewModel;
 using System.Security.Claims;
+using System.Threading;
 
 
 namespace TrackerApi.Controllers
@@ -26,13 +27,13 @@ namespace TrackerApi.Controllers
 
         [HttpGet("skip/{skip:int}/take/{take:int}")]
         [Authorize]
-        public async Task<IActionResult> GetAsync([FromRoute] int skip = 0
+        public async Task<IActionResult> GetAsync(CancellationToken token,[FromRoute] int skip = 0
             , [FromRoute] int take = 25)
         {
             if (take > 1000)
                 return BadRequest();
 
-            var data = await _service.GetAll(skip, take);
+            var data = await _service.GetAll(skip, take,token);
 
             return Ok(data);
         }
@@ -41,9 +42,9 @@ namespace TrackerApi.Controllers
         [HttpGet("{id:int}")]
         [Authorize]
 
-        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+        public async Task<IActionResult> GetByIdAsync(CancellationToken token,[FromRoute] int id)
         {
-            var user = await _service.GetById(id);
+            var user = await _service.GetById(id,token);
 
             if (user == null)
                 return NotFound(new { ErrorMessage = "Not found", model = user });

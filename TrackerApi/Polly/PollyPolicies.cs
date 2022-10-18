@@ -15,7 +15,7 @@ namespace TrackerApi.Polly
 
         public static  IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
         {
-            return HttpPolicyExtensions.HandleTransientHttpError().AdvancedCircuitBreakerAsync(0.5, TimeSpan.FromSeconds(10), 2, TimeSpan.FromSeconds(15));
+            return HttpPolicyExtensions.HandleTransientHttpError().AdvancedCircuitBreakerAsync(0.5, TimeSpan.FromSeconds(10), 10, TimeSpan.FromSeconds(15));
         }
     }
 }

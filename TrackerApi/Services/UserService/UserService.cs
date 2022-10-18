@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TrackerApi.Data;
 using TrackerApi.Models;
@@ -20,6 +21,11 @@ namespace TrackerApi.Services.UserService
         public UserService(AppDbContext context, ITvShowService tvshowService, IUnitOfWork uow) : base(context,uow)
         {
             _tvshowService = tvshowService;
+        }
+
+        public Task<User> GetByEmail(string email)
+        {
+            return  _context.Users.Include(x => x.UserTvShowFavorite).FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public  async Task<User> Create(CreateUserViewModel model)
@@ -79,15 +85,15 @@ namespace TrackerApi.Services.UserService
              await _uow.Commit();
         }
 
-        public async Task<GetUsersViewModel> GetAll(int skip, int take)
+        public async Task<GetUsersViewModel> GetAll(int skip, int take,CancellationToken token)
         {
-            var totalUsers = await _context.Users.CountAsync();
+            var totalUsers = await _context.Users.CountAsync(cancellationToken:token);
 
 
             var users = await _context.Users.AsNoTracking()
                 .Skip(skip)
                 .Take(take)
-                .ToListAsync();
+                .ToListAsync(cancellationToken:token);
 
             return new GetUsersViewModel()
             {
@@ -96,14 +102,19 @@ namespace TrackerApi.Services.UserService
             };
         }
 
-        public Task<User> GetByEmail(string email)
-        {
-            return  _context.Users.Include(x => x.UserTvShowFavorite).FirstOrDefaultAsync(x => x.Email == email);
-        }
-
         public Task<User> GetById(int id)
         {
             return _context.Users.Include(x => x.UserTvShowFavorite).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public Task<User> GetByEmail(string email,CancellationToken token)
+        {
+            return  _context.Users.Include(x => x.UserTvShowFavorite).FirstOrDefaultAsync(x => x.Email == email,cancellationToken:token);
+        }
+
+        public Task<User> GetById(int id,CancellationToken token)
+        {
+            return _context.Users.Include(x => x.UserTvShowFavorite).FirstOrDefaultAsync(x => x.Id == id,cancellationToken:token);
         }
     }
 }
