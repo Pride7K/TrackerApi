@@ -23,6 +23,7 @@ Which techs/patterns/frameworks are being used in the project?
 - Unit Of Work
 - Circuit Breaker
 - Decorator Pattern
+- K6 API Loading Testing (Stress, Spike, Load, Soak)
 
 ### How is it structured ?
 
