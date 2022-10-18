@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -28,6 +29,7 @@ using TrackerApi.Services.UserService;
 using TrackerApi.Transaction;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using Microsoft.OpenApi.Models;
 using TrackerApi.Polly;
 using Polly.Extensions.Http;
 
@@ -79,6 +81,20 @@ namespace TrackerApi
             }).AddPolicyHandler(PollyPolicies.GetRetryPolicy()).AddPolicyHandler(PollyPolicies.GetCircuitBreakerPolicy());
 
             services.AddHangfireServer();
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "TrackerAPI",
+                    Description = "A simple .NET Core Application just to test my knowledge",
+                });
+                
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
 
             services.AddFluentValidation(config => config.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
         }
@@ -100,7 +116,15 @@ namespace TrackerApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using TrackerApi.Data;
 using TrackerApi.Models;
 using TrackerApi.Services.EpisodeService;
@@ -12,6 +13,7 @@ using TrackerApi.Services.TvShowService;
 
 namespace TrackerApi.Controllers
 {
+    [Produces("application/json")]
     [ApiController]
     [Route("v1/episodes")]
     public class EpisodeController : ControllerBase
@@ -21,9 +23,27 @@ namespace TrackerApi.Controllers
         {
             _service = service;
         }
+        
+        /// <summary>
+        /// Create a Episode from a Tv Show
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST  
+        ///     {
+        ///       "Description":string,
+        ///       "ReleaseDate":datetimeString yyyy-mm-dd,
+        ///       "TvShowId":int
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         [Authorize]
-
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PostAsync([FromServices] AppDbContext context, [FromBody] CreateEpisodeViewModel model)
         {
             if (!ModelState.IsValid)

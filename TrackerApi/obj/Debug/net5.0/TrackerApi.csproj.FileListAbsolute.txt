@@ -86,3 +86,9 @@ C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\obj\Debug\net
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\obj\Debug\net5.0\TrackerApi.pdb
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\obj\Debug\net5.0\TrackerApi.genruntimeconfig.cache
 C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\obj\Debug\net5.0\ref\TrackerApi.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\bin\Debug\net5.0\Microsoft.OpenApi.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\bin\Debug\net5.0\TrackerApi.xml
+C:\Users\gsantos\OneDrive - VIA Consulting\Desktop\demo\TrackerApi\obj\Debug\net5.0\TrackerApi.xml

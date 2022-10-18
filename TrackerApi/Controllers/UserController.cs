@@ -11,10 +11,12 @@ using TrackerApi.Services.UserService;
 using TrackerApi.Services.UserService.ViewModel;
 using System.Security.Claims;
 using System.Threading;
+using Microsoft.AspNetCore.Http;
 
 
 namespace TrackerApi.Controllers
 {
+    [Produces("application/json")]
     [ApiController]
     [Route("v1/users")]
     public class UserController : ControllerBase
@@ -25,8 +27,23 @@ namespace TrackerApi.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Get All the Users
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /skip/0/take/25
+        ///     {
+        ///       
+        ///     }
+        ///
+        /// </remarks>
         [HttpGet("skip/{skip:int}/take/{take:int}")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAsync(CancellationToken token,[FromRoute] int skip = 0
             , [FromRoute] int take = 25)
         {
@@ -39,9 +56,22 @@ namespace TrackerApi.Controllers
         }
 
 
+        /// <summary>
+        /// Get a specific User
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /1
+        ///     {
+        ///        
+        ///     }
+        ///
+        /// </remarks>
         [HttpGet("{id:int}")]
         [Authorize]
-
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByIdAsync(CancellationToken token,[FromRoute] int id)
         {
             var user = await _service.GetById(id,token);
@@ -53,11 +83,26 @@ namespace TrackerApi.Controllers
             return Ok(user);
         }
 
-
+        /// <summary>
+        /// Favorite a Tv Show that a specific logged user liked it
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST tvshow/favorite
+        ///     {
+        ///        "favorite":bool,
+        ///        "tvshowId":int
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         [Route("tvshow/favorite")]
         [Authorize]
-
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PostFavoriteAsync([FromBody] FavoriteTvShowViewModel model)
         {
             try
@@ -78,7 +123,24 @@ namespace TrackerApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a User
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST 
+        ///     {
+        ///       "Name":string,
+        ///       "Email":string,
+        ///       "Password":string
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PostAsync( [FromBody] CreateUserViewModel model)
         {
 

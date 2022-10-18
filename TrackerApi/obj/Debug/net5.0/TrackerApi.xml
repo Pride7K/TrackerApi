@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TrackerApi</name>
+    </assembly>
+    <members>
+        <member name="M:TrackerApi.Controllers.ActorController.GetAsync(System.Threading.CancellationToken,TrackerApi.Services.ActorService.ViewModel.GetActorFiltersViewModel,System.Int32,System.Int32)">
+             <summary>
+             Get All actors
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET  /skip/0/take/25
+                 {
+                   
+                   
+                   
+                 
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.ActorController.PutAsync(System.Int32,System.Int32)">
+             <summary>
+             Add a Actor to a Tv Show
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 PUT  
+                 {
+                   
+                   
+                   
+                 
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.ActorController.PostAsync(TrackerApi.Services.ActorService.ViewModel.CreateActorViewModel)">
+             <summary>
+             Create a Actor
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST  
+                 {
+                   "Name":string,
+                   "Description":string,
+                   
+                 
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.EpisodeController.PostAsync(TrackerApi.Data.AppDbContext,TrackerApi.Services.EpisodeService.ViewModel.CreateEpisodeViewModel)">
+             <summary>
+             Create a Episode from a Tv Show
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST  
+                 {
+                   "Description":string,
+                   "ReleaseDate":datetimeString yyyy-mm-dd,
+                   "TvShowId":int
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.LoginController.Authenticate(TrackerApi.Data.AppDbContext,TrackerApi.Services.Login.ViewModel.AuthenticateUserViewModel)">
+             <summary>
+             Authenticate a User
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST  /user
+                 {
+                   "Name":"test",
+                   "Email":"test@gmail.com",
+                   "Password":"test"
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.GetAsync(System.Threading.CancellationToken,TrackerApi.Services.TvShowService.ViewModel.GetTvShowFiltersViewModel,System.Int32,System.Int32)">
+             <summary>
+             Get All the Tv Shows
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET  /skip/0/take/25
+                 {
+                   
+                   
+                     
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.GetRecomendationsAsync(System.Threading.CancellationToken,TrackerApi.Services.TvShowService.ViewModel.GetTvShowFiltersViewModel,System.Int32,System.Int32)">
+             <summary>
+             Get Tv Shows Recomendations
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET  /recomendations/skip/0/take/25
+                 {
+                   
+                   
+                     
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.GetByIdAsync(System.Threading.CancellationToken,System.Int32)">
+             <summary>
+             Get Specific Tv Show By Id
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET  /id
+                 {
+                   
+                   
+                     
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.PostAsync(TrackerApi.Services.TvShowService.ViewModel.CreateTvShowViewModel)">
+             <summary>
+             Create a Tv Show
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST  
+                 {
+                   "Title":string,
+                   "Description":string
+                     
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.PostLoadAsync(System.Threading.CancellationToken)">
+             <summary>
+             Create Tv Shows from a endpoint
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /load 
+                 {
+                   
+                   
+                     
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.PutAsync(System.Int32,TrackerApi.Services.TvShowService.ViewModel.PutTvShowViewModel)">
+             <summary>
+             Update a Tv Show
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 PUT 
+                 {
+                   "Description":"string,
+                   "Available":bool
+                     
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.GetAsync(System.Threading.CancellationToken,System.Int32)">
+             <summary>
+             Get All the episodes from a Tv Show
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /id/episodes 
+                 {
+                  
+                   
+                   
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.GetActorsAsync(System.Threading.CancellationToken,System.Int32)">
+             <summary>
+             Get All the actors from a Tv Show
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /id/actors 
+                 {
+                   
+                   
+                   
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.TvShowController.DeleteAsync(System.Int32)">
+             <summary>
+             Delete a Tv Show
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 DELETE /id
+                 {
+                   
+                   
+                   
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.UserController.GetAsync(System.Threading.CancellationToken,System.Int32,System.Int32)">
+             <summary>
+             Get All the Users
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /skip/0/take/25
+                 {
+                   
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.UserController.GetByIdAsync(System.Threading.CancellationToken,System.Int32)">
+             <summary>
+             Get a specific User
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 GET /1
+                 {
+                    
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.UserController.PostFavoriteAsync(TrackerApi.Services.UserService.ViewModel.FavoriteTvShowViewModel)">
+             <summary>
+             Favorite a Tv Show that a specific logged user liked it
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST tvshow/favorite
+                 {
+                    "favorite":bool,
+                    "tvshowId":int
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:TrackerApi.Controllers.UserController.PostAsync(TrackerApi.Services.UserService.ViewModel.CreateUserViewModel)">
+             <summary>
+             Create a User
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST 
+                 {
+                   "Name":string,
+                   "Email":string,
+                   "Password":string
+                 }
+            
+             </remarks>
+        </member>
+    </members>
+</doc>
